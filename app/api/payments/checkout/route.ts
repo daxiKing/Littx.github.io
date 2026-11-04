@@ -1,0 +1,3 @@
+import {NextResponse} from "next/server";import {requireUser} from "@/lib/auth";
+// Deliberately fail closed until an approved paysafecard merchant flow is implemented and configured. Never collect PINs.
+export async function POST(){try{await requireUser();if(!process.env.PAYSAFECARD_API_BASE_URL||!process.env.PAYSAFECARD_API_KEY||!process.env.PAYSAFECARD_MERCHANT_ID)return NextResponse.json({error:"paysafecard checkout is not configured. No payment has been taken."},{status:503});return NextResponse.json({error:"Merchant adapter is not implemented. Configure the official provider integration before enabling checkout."},{status:503})}catch(e){return NextResponse.json({error:"Sign in required"},{status:401})}}

@@ -1,2 +1,0 @@
-import Link from "next/link";
-export function SiteNav(){return <nav className="nav"><Link className="brand" href="/"><span className="brand-mark">L</span><span>LITTX<span style={{color:"var(--accent)"}}>.</span></span></Link><div className="navlinks"><Link href="/#about">About</Link><Link href="/pricing">Editions</Link><Link href="/download">Download</Link><Link href="/support">Support</Link></div><Link className="nav-cta" href="/login">Account ↗</Link></nav>}

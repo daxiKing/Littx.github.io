@@ -1,3 +1,0 @@
-import {createClient} from "@/lib/supabase/server";
-export async function requireUser(){const supabase=await createClient();const {data:{user},error}=await supabase.auth.getUser();if(error||!user)throw new Error("UNAUTHORIZED");return {supabase,user}}
-export async function requireOwner(){const {supabase,user}=await requireUser();if(!process.env.OWNER_USER_ID||user.id!==process.env.OWNER_USER_ID)throw new Error("FORBIDDEN");return {supabase,user}}

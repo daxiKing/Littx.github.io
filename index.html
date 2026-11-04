@@ -1,725 +1,790 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#08090d">
-  <meta name="description" content="LITTX CLIENT — Beyond Vanilla. Discover LITTX Free and LITTX+ premium editions.">
-  <title>LITTX CLIENT — Beyond Vanilla</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg:#08090d;
-      --panel:#101219;
-      --panel2:#151923;
-      --line:rgba(255,255,255,.10);
-      --muted:#9699a6;
-      --white:#f5f6fa;
-      --accent:#a5ff35;
-      --accent2:#6bdc22;
-      --danger:#ff5555;
-    }
-
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body {
-      margin:0;
-      background:var(--bg);
-      color:var(--white);
-      font-family:'DM Sans',sans-serif;
-      overflow-x:hidden;
-    }
-
-    body:before {
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:-1;
-      background:
-        radial-gradient(ellipse at 50% 5%,rgba(137,255,48,.12),transparent 38%),
-        radial-gradient(ellipse at 90% 55%,rgba(85,105,255,.08),transparent 35%),
-        linear-gradient(180deg,#090b10,#08090d 60%);
-    }
-
-    a { color:inherit; }
-    button,input { font:inherit; }
-
-    .noise {
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:20;
-      opacity:.025;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
-    }
-
-    .container { max-width:1180px; margin:auto; padding:0 28px; }
-
-    /* NAVIGATION */
-
-    .nav {
-      height:82px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      position:sticky;
-      top:0;
-      z-index:15;
-      background:rgba(8,9,13,.85);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:11px;
-      text-decoration:none;
-      font-weight:900;
-      letter-spacing:2px;
-      font-size:18px;
-    }
-
-    .brand-mark {
-      width:36px;
-      height:36px;
-      border:1px solid rgba(165,255,53,.65);
-      display:grid;
-      place-items:center;
-      color:var(--accent);
-      font-family:'Barlow Condensed';
-      font-size:24px;
-      transform:skew(-8deg);
-      box-shadow:0 0 22px #a5ff3520;
-    }
-
-    .navlinks {
-      display:flex;
-      align-items:center;
-      gap:28px;
-    }
-
-    .navlinks a,.nav-account {
-      text-decoration:none;
-      color:#b8bbc6;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.2px;
-      text-transform:uppercase;
-      transition:.2s;
-    }
-
-    .navlinks a:hover,.nav-account:hover { color:var(--accent); }
-
-    .nav-account {
-      border:1px solid var(--line);
-      padding:12px 17px;
-      color:white;
-    }
-
-    /* BUTTONS */
-
-    .btn {
-      display:inline-flex;
-      justify-content:center;
-      align-items:center;
-      gap:9px;
-      padding:15px 22px;
-      border:1px solid transparent;
-      text-decoration:none;
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:1.3px;
-      text-transform:uppercase;
-      cursor:pointer;
-      transition:.25s;
-    }
-
-    .btn-primary {
-      background:var(--accent);
-      color:#10130a;
-      box-shadow:0 0 30px #a5ff3525;
-    }
-
-    .btn-primary:hover {
-      background:#b9ff68;
-      transform:translateY(-3px);
-    }
-
-    .btn-ghost {
-      background:#ffffff05;
-      border-color:var(--line);
-      color:white;
-    }
-
-    .btn-ghost:hover {
-      border-color:var(--accent);
-      color:var(--accent);
-    }
-
-    .btn-disabled {
-      background:#ffffff08;
-      border-color:var(--line);
-      color:#8b909d;
-      cursor:not-allowed;
-    }
-
-    /* HERO */
-
-    .hero {
-      min-height:650px;
-      display:flex;
-      align-items:center;
-      position:relative;
-      padding-top:90px;
-      padding-bottom:90px;
-    }
-
-    .hero:after {
-      content:"";
-      position:absolute;
-      width:520px;
-      height:520px;
-      right:2%;
-      top:5%;
-      border-radius:50%;
-      background:radial-gradient(circle,#a5ff3520,transparent 70%);
-      filter:blur(8px);
-      animation:pulse 5s infinite;
-    }
-
-    .hero-grid {
-      position:absolute;
-      inset:0;
-      opacity:.12;
-      background-image:
-        linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
-      background-size:58px 58px;
-      mask-image:linear-gradient(to bottom,black,transparent 90%);
-    }
-
-    .hero-content {
-      max-width:730px;
-      position:relative;
-      z-index:2;
-      animation:rise .9s ease both;
-    }
-
-    .eyebrow {
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      color:var(--accent);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:3px;
-      text-transform:uppercase;
-    }
-
-    .dot {
-      width:7px;
-      height:7px;
-      background:var(--accent);
-      border-radius:50%;
-      box-shadow:0 0 12px var(--accent);
-      animation:blink 1.5s infinite;
-    }
-
-    h1 {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(80px,13vw,150px);
-      line-height:.78;
-      letter-spacing:-3px;
-      margin:28px 0;
-      font-weight:900;
-      text-transform:uppercase;
-    }
-
-    h1 span {
-      display:block;
-      color:var(--accent);
-      text-shadow:0 0 45px #a5ff3530;
-    }
-
-    .hero-description {
-      color:#aeb1bd;
-      max-width:510px;
-      line-height:1.9;
-      font-size:14px;
-    }
-
-    .actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:13px;
-      margin-top:30px;
-    }
-
-    .hero-meta {
-      display:flex;
-      flex-wrap:wrap;
-      gap:28px;
-      margin-top:50px;
-      color:#737784;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:1.5px;
-      text-transform:uppercase;
-    }
-
-    .hero-meta b { color:white; }
-
-    /* SECTIONS */
-
-    .section {
-      padding-top:90px;
-      padding-bottom:90px;
-    }
-
-    .section-head {
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap:25px;
-      margin-bottom:38px;
-    }
-
-    .kicker {
-      color:var(--accent);
-      font-size:10px;
-      letter-spacing:3px;
-      font-weight:900;
-      text-transform:uppercase;
-    }
-
-    h2 {
-      font-family:'Barlow Condensed';
-      font-size:clamp(44px,6vw,70px);
-      line-height:.95;
-      margin:12px 0 0;
-      text-transform:uppercase;
-    }
-
-    .section-head p {
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.8;
-      max-width:360px;
-    }
-
-    /* FEATURES */
-
-    .features-grid {
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-    }
-
-    .feature {
-      background:linear-gradient(145deg,#141720,#0d0f15);
-      border:1px solid var(--line);
-      padding:26px;
-      transition:.3s;
-    }
-
-    .feature:hover {
-      transform:translateY(-4px);
-      border-color:#a5ff3550;
-    }
-
-    .feature-icon {
-      color:var(--accent);
-      font-size:25px;
-      margin-bottom:18px;
-    }
-
-    .feature h3 {
-      font-family:'Barlow Condensed';
-      font-size:25px;
-      margin:0 0 10px;
-      text-transform:uppercase;
-    }
-
-    .feature p {
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.8;
-      margin:0;
-    }
-
-    /* PLANS */
-
-    .plans {
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-
-    .plan {
-      position:relative;
-      overflow:hidden;
-      padding:29px;
-      background:linear-gradient(145deg,#151821,#0d0f15);
-      border:1px solid var(--line);
-      min-height:480px;
-      transition:.3s;
-    }
-
-    .plan:hover {
-      transform:translateY(-5px);
-      border-color:#ffffff35;
-    }
-
-    .plan.featured {
-      border-color:#a5ff3560;
-      background:linear-gradient(145deg,#172016,#101219 65%);
-    }
-
-    .plan.featured:before {
-      content:"";
-      position:absolute;
-      width:250px;
-      height:250px;
-      right:-100px;
-      top:-100px;
-      background:#a5ff3518;
-      filter:blur(40px);
-      border-radius:50%;
-    }
-
-    .plan-top {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      position:relative;
-    }
-
-    .plan-label {
-      color:#aeb2bf;
-      font-size:9px;
-      letter-spacing:1.5px;
-      font-weight:900;
-      text-transform:uppercase;
-    }
-
-    .tag {
-      font-size:9px;
-      font-weight:900;
-      letter-spacing:1px;
-      padding:8px 9px;
-      background:#a5ff3515;
-      color:var(--accent);
-      border:1px solid #a5ff3540;
-      white-space:nowrap;
-    }
-
-    .plan h3 {
-      font-family:'Barlow Condensed';
-      font-size:44px;
-      margin:30px 0 8px;
-      text-transform:uppercase;
-    }
-
-    .price {
-      color:#aeb2bf;
-      font-size:12px;
-    }
-
-    .price strong {
-      font-size:38px;
-      color:white;
-      letter-spacing:-1px;
-    }
-
-    .price small {
-      color:#9297a5;
-    }
-
-    .plan-desc {
-      font-size:12px;
-      line-height:1.8;
-      color:#999eac;
-      margin:20px 0;
-      min-height:65px;
-    }
-
-    .plan-features {
-      list-style:none;
-      padding:0;
-      margin:24px 0 30px;
-      display:grid;
-      gap:13px;
-      color:#d6d8df;
-      font-size:11px;
-    }
-
-    .plan-features li:before {
-      content:"✦";
-      color:var(--accent);
-      margin-right:10px;
-    }
-
-    .plan .btn { width:100%; }
-
-    .notice {
-      margin-top:17px;
-      padding:13px;
-      border-left:2px solid var(--accent);
-      background:#a5ff3509;
-      color:#aeb2bd;
-      font-size:10px;
-      line-height:1.8;
-    }
-
-    /* DOWNLOADS */
-
-    .download-panel {
-      border:1px solid var(--line);
-      background:linear-gradient(120deg,#141821,#0d1016);
-      padding:32px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      flex-wrap:wrap;
-    }
-
-    .download-panel h3 {
-      font-family:'Barlow Condensed';
-      font-size:32px;
-      margin:0 0 7px;
-    }
-
-    .download-panel p {
-      color:var(--muted);
-      font-size:12px;
-      margin:0;
-    }
-
-    /* FAQ */
-
-    .faq-list {
-      display:grid;
-      gap:10px;
-    }
-
-    .faq-item {
-      border:1px solid var(--line);
-      background:#ffffff04;
-      padding:20px;
-    }
-
-    .faq-item summary {
-      cursor:pointer;
-      font-size:13px;
-      font-weight:800;
-    }
-
-    .faq-item p {
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.8;
-      margin:15px 0 0;
-    }
-
-    /* MODAL */
-
-    .modal {
-      position:fixed;
-      inset:0;
-      z-index:30;
-      background:rgba(0,0,0,.82);
-      backdrop-filter:blur(12px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
-
-    .modal.open { display:flex; }
-
-    .modal-box {
-      width:100%;
-      max-width:450px;
-      max-height:90vh;
-      overflow-y:auto;
-      background:#11141c;
-      border:1px solid #a5ff3550;
-      padding:30px;
-      position:relative;
-      box-shadow:0 0 80px #000a;
-    }
-
-    .modal-close {
-      position:absolute;
-      right:17px;
-      top:13px;
-      background:none;
-      border:none;
-      color:#aeb2bf;
-      font-size:24px;
-      cursor:pointer;
-    }
-
-    .modal-box h2 {
-      font-size:37px;
-      margin-bottom:10px;
-    }
-
-    .modal-box > p {
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.7;
-    }
-
-    .field-label {
-      display:block;
-      color:#c5c9d3;
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      margin:20px 0 9px;
-    }
-
-    .field {
-      width:100%;
-      background:#080a10;
-      border:1px solid var(--line);
-      color:white;
-      padding:14px;
-      outline:none;
-      font-size:12px;
-    }
-
-    .field:focus { border-color:var(--accent); }
-
-    .payment-option {
-      width:100%;
-      padding:15px;
-      border:1px solid var(--line);
-      background:#ffffff05;
-      color:white;
-      text-align:left;
-      margin-bottom:10px;
-      cursor:pointer;
-      transition:.2s;
-    }
-
-    .payment-option:hover {
-      border-color:var(--accent);
-      background:#a5ff3509;
-    }
-
-    .payment-option strong {
-      display:block;
-      font-size:12px;
-      margin-bottom:5px;
-    }
-
-    .payment-option span {
-      color:var(--muted);
-      font-size:10px;
-    }
-
-    .status {
-      font-size:11px;
-      line-height:1.7;
-      margin-top:15px;
-      color:#b5bbc7;
-    }
-
-    .status.error { color:var(--danger); }
-    .status.success { color:var(--accent); }
-
-    .modal-note {
-      margin-top:17px;
-      color:#8e94a2;
-      font-size:10px;
-      line-height:1.7;
-    }
-
-    /* FOOTER */
-
-    .footer {
-      border-top:1px solid var(--line);
-      padding:30px 0 45px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      flex-wrap:wrap;
-      color:#747987;
-      font-size:10px;
-      letter-spacing:1px;
-      text-transform:uppercase;
-    }
-
-    .footer strong { color:white; }
-    .footer a { text-decoration:none; }
-
-    .reveal {
-      opacity:0;
-      transform:translateY(20px);
-      transition:.7s;
-    }
-
-    .reveal.visible {
-      opacity:1;
-      transform:none;
-    }
-
-    @keyframes rise {
-      from { opacity:0;transform:translateY(25px); }
-      to { opacity:1;transform:none; }
-    }
-
-    @keyframes blink {
-      50% { opacity:.35; }
-    }
-
-    @keyframes pulse {
-      50% { transform:scale(1.08);opacity:.7; }
-    }
-
-    @media(max-width:850px) {
-      .plans { grid-template-columns:1fr 1fr; }
-      .features-grid { grid-template-columns:1fr 1fr; }
-    }
-
-    @media(max-width:600px) {
-      .container { padding-left:20px;padding-right:20px; }
-      .nav { height:70px; }
-      .navlinks { display:none; }
-      .hero { min-height:600px;padding-top:80px;padding-bottom:80px; }
-      .hero:after { right:-60%; }
-      .hero-meta { gap:15px; }
-      .section { padding-top:65px;padding-bottom:65px; }
-      .section-head { display:block; }
-      .section-head p { margin-top:15px; }
-      .plans,.features-grid { grid-template-columns:1fr; }
-      .plan { padding:25px; }
-      .download-panel { padding:23px; }
-      .footer { padding-left:20px;padding-right:20px; }
-    }
-
-    @media(prefers-reduced-motion:reduce) {
-      *,*:before,*:after {
-        animation:none!important;
-        transition:none!important;
-        scroll-behavior:auto!important;
-      }
-      .reveal { opacity:1;transform:none; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090d">
+<meta name="description" content="LITTX CLIENT — Beyond Vanilla. Discover Free, Plus, Ultimate and Supporter editions.">
+<title>LITTX CLIENT — Beyond Vanilla</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#07090c;
+  --panel:#10141b;
+  --panel2:#151b23;
+  --line:rgba(255,255,255,.09);
+  --muted:#939baa;
+  --white:#f5f7fa;
+  --accent:#a5ff35;
+  --accent2:#63d51d;
+  --purple:#aa80ff;
+  --blue:#61b9ff;
+  --gold:#ffc66d;
+}
+
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+a {color:inherit}
+button {font:inherit}
+
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+    radial-gradient(ellipse at 15% 5%,#a5ff3515,transparent 35%),
+    radial-gradient(ellipse at 90% 35%,#6655ff13,transparent 35%),
+    radial-gradient(ellipse at 50% 100%,#1b315020,transparent 45%),
+    #07090c;
+}
+
+body:after {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.13;
+  background-image:
+    linear-gradient(#ffffff09 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff09 1px,transparent 1px);
+  background-size:65px 65px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+.container {max-width:1220px;margin:auto;padding:0 28px}
+
+.noise {
+  position:fixed;
+  inset:0;
+  z-index:50;
+  opacity:.025;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+/* NAVIGATION */
+
+.nav {
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#080a0edb;
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--line);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+  font-size:19px;
+  letter-spacing:2px;
+  text-decoration:none;
+}
+
+.brand-mark {
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  color:var(--accent);
+  border:1px solid #a5ff3580;
+  font-family:'Barlow Condensed';
+  font-size:27px;
+  transform:skew(-8deg);
+  box-shadow:0 0 25px #a5ff3525;
+}
+
+.navlinks {display:flex;gap:30px;align-items:center}
+
+.navlinks a,.nav-account {
+  text-decoration:none;
+  color:#aeb4c0;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  transition:.2s;
+}
+
+.navlinks a:hover,.nav-account:hover {color:var(--accent)}
+
+.nav-account {
+  padding:12px 18px;
+  border:1px solid var(--line);
+  color:white;
+}
+
+/* BUTTONS */
+
+.btn {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  padding:15px 23px;
+  border:1px solid transparent;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.4px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-primary {
+  color:#0b1006;
+  background:var(--accent);
+  box-shadow:0 0 35px #a5ff3520;
+}
+
+.btn-primary:hover {
+  background:#c0ff79;
+  transform:translateY(-3px);
+  box-shadow:0 0 40px #a5ff3540;
+}
+
+.btn-ghost {
+  color:white;
+  background:#ffffff06;
+  border-color:var(--line);
+}
+
+.btn-ghost:hover {
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translateY(-2px);
+}
+
+/* HERO */
+
+.hero {
+  min-height:690px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  padding-top:100px;
+  padding-bottom:100px;
+}
+
+.hero-content {max-width:790px;position:relative;z-index:2}
+
+.hero-glow {
+  position:absolute;
+  width:650px;
+  height:650px;
+  right:-100px;
+  top:0;
+  border-radius:50%;
+  background:radial-gradient(circle,#a5ff351c,transparent 68%);
+  animation:glow 7s ease-in-out infinite;
+}
+
+.eyebrow,.kicker {
+  color:var(--accent);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.eyebrow {display:flex;align-items:center;gap:12px}
+
+.dot {
+  width:7px;height:7px;
+  background:var(--accent);
+  border-radius:50%;
+  box-shadow:0 0 15px var(--accent);
+  animation:blink 1.6s infinite;
+}
+
+.hero h1 {
+  font-family:'Barlow Condensed';
+  font-size:clamp(90px,14vw,165px);
+  line-height:.76;
+  letter-spacing:-4px;
+  margin:35px 0;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.hero h1 span {
+  display:block;
+  color:var(--accent);
+  text-shadow:0 0 65px #a5ff3535;
+}
+
+.hero-description {
+  color:#aeb4c0;
+  font-size:14px;
+  line-height:2;
+  max-width:520px;
+}
+
+.actions {display:flex;gap:14px;flex-wrap:wrap;margin-top:35px}
+
+.hero-meta {
+  display:flex;
+  flex-wrap:wrap;
+  gap:32px;
+  margin-top:65px;
+  color:#777f8d;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.hero-meta b {color:white}
+
+/* STATS */
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.stat {padding:27px;text-align:center}
+.stat strong {
+  display:block;
+  font-family:'Barlow Condensed';
+  font-size:34px;
+  color:var(--accent);
+}
+.stat span {
+  font-size:9px;
+  color:var(--muted);
+  letter-spacing:2px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+/* SECTIONS */
+
+.section {padding-top:110px;padding-bottom:110px}
+
+.section-head {
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:45px;
+}
+
+.section h2 {
+  font-family:'Barlow Condensed';
+  font-size:clamp(48px,7vw,78px);
+  line-height:.9;
+  margin:15px 0 0;
+  text-transform:uppercase;
+}
+
+.section-head p {
+  max-width:380px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:2;
+}
+
+/* FEATURES */
+
+.features-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.feature {
+  padding:29px;
+  min-height:195px;
+  background:linear-gradient(145deg,#151b24,#0c1016);
+  border:1px solid var(--line);
+  transition:.3s;
+}
+
+.feature:hover {
+  transform:translateY(-5px);
+  border-color:#a5ff3560;
+  box-shadow:0 15px 50px #0005;
+}
+
+.feature-icon {
+  font-size:27px;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+
+.feature h3 {
+  font-family:'Barlow Condensed';
+  font-size:26px;
+  margin:0 0 10px;
+  text-transform:uppercase;
+}
+
+.feature p {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.9;
+  margin:0;
+}
+
+/* PRICING SELECTOR */
+
+.pricing-control {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin:0 0 38px;
+  flex-wrap:wrap;
+}
+
+.billing-label {
+  color:#8d96a5;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.billing-label.active {color:white}
+
+.billing-toggle {
+  width:58px;
+  height:30px;
+  background:#252d37;
+  border:1px solid var(--line);
+  border-radius:30px;
+  cursor:pointer;
+  position:relative;
+}
+
+.billing-toggle:after {
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  top:4px;
+  left:4px;
+  background:var(--accent);
+  border-radius:50%;
+  transition:.25s;
+  box-shadow:0 0 15px #a5ff3560;
+}
+
+.billing-toggle.forever:after {left:32px}
+
+.savings {
+  color:var(--accent);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+/* PLANS */
+
+.plans {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+}
+
+.plan {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  padding:25px 21px;
+  min-height:540px;
+  overflow:hidden;
+  background:linear-gradient(150deg,#171d27,#0c1016 75%);
+  border:1px solid var(--line);
+  transition:.3s;
+}
+
+.plan:hover {
+  transform:translateY(-7px);
+  border-color:#ffffff40;
+  box-shadow:0 25px 60px #0006;
+}
+
+.plan.featured {
+  border-color:#a5ff3580;
+  background:linear-gradient(155deg,#19251a,#101610 60%,#0c1016);
+  box-shadow:0 0 45px #a5ff350b;
+}
+
+.plan.ultimate {border-color:#aa80ff60}
+.plan.supporter {border-color:#ffc66d70}
+
+.plan-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.plan-label {
+  color:#9ca5b4;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+
+.tag {
+  padding:7px 9px;
+  color:var(--accent);
+  background:#a5ff3514;
+  border:1px solid #a5ff3540;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.ultimate .tag {color:var(--purple);background:#aa80ff14;border-color:#aa80ff50}
+.supporter .tag {color:var(--gold);background:#ffc66d14;border-color:#ffc66d50}
+
+.plan h3 {
+  font-family:'Barlow Condensed';
+  font-size:34px;
+  margin:35px 0 10px;
+  text-transform:uppercase;
+}
+
+.plan-subtitle {
+  font-size:10px;
+  color:var(--muted);
+  min-height:35px;
+  line-height:1.7;
+}
+
+.plan-price {
+  margin:20px 0 5px;
+  display:flex;
+  align-items:baseline;
+  gap:7px;
+}
+
+.plan-price strong {
+  font-family:'Barlow Condensed';
+  font-size:58px;
+  letter-spacing:-1px;
+}
+
+.plan-price small {color:var(--muted);font-size:10px}
+
+.plan-period {
+  color:#8992a1;
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.plan-divider {height:1px;background:var(--line);margin:23px 0}
+
+.plan-features {
+  list-style:none;
+  padding:0;
+  margin:0 0 25px;
+  display:grid;
+  gap:14px;
+  color:#c8ced8;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.plan-features li:before {
+  content:"✓";
+  color:var(--accent);
+  font-weight:900;
+  margin-right:9px;
+}
+
+.ultimate .plan-features li:before {color:var(--purple)}
+.supporter .plan-features li:before {color:var(--gold)}
+
+.plan .btn {width:100%;margin-top:auto;padding:14px 9px}
+
+.plan.featured .btn {background:var(--accent);color:#10130a}
+.ultimate .btn {border-color:#aa80ff70;color:#c9b1ff}
+.supporter .btn {border-color:#ffc66d70;color:var(--gold)}
+
+.plan-note {
+  text-align:center;
+  color:#77808e;
+  font-size:9px;
+  margin-top:13px;
+  line-height:1.7;
+}
+
+/* COMPARISON */
+
+.comparison-wrap {
+  overflow-x:auto;
+  border:1px solid var(--line);
+  background:#10141b;
+}
+
+.comparison {
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+  text-align:center;
+}
+
+.comparison th,.comparison td {
+  padding:19px 14px;
+  border-bottom:1px solid var(--line);
+  font-size:10px;
+}
+
+.comparison thead th {
+  color:white;
+  font-family:'Barlow Condensed';
+  font-size:21px;
+  text-transform:uppercase;
+  background:#171d26;
+}
+
+.comparison thead th:first-child {
+  text-align:left;
+  color:#9ca5b4;
+  font-family:'DM Sans';
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+.comparison tbody td:first-child {
+  text-align:left;
+  color:#aeb6c4;
+  font-weight:700;
+}
+
+.comparison tbody tr:hover {background:#ffffff05}
+
+.check {color:var(--accent);font-size:16px}
+.cross {color:#606977}
+.highlight-col {background:#a5ff3508}
+
+/* DOWNLOADS */
+
+.download-panel {
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  border:1px solid var(--line);
+  background:linear-gradient(110deg,#151c25,#0c1016);
+}
+
+.download-panel h3 {
+  font-family:'Barlow Condensed';
+  font-size:32px;
+  margin:0 0 8px;
+}
+
+.download-panel p {font-size:11px;color:var(--muted);margin:0}
+
+/* FAQ */
+
+.faq-list {display:grid;gap:10px}
+
+.faq-item {
+  padding:22px;
+  background:#ffffff04;
+  border:1px solid var(--line);
+}
+
+.faq-item summary {
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.faq-item p {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.9;
+  margin:15px 0 0;
+}
+
+/* CHECKOUT MODAL */
+
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#000c;
+  backdrop-filter:blur(15px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.open {display:flex}
+
+.modal-box {
+  width:100%;
+  max-width:450px;
+  padding:32px;
+  background:#111720;
+  border:1px solid #a5ff3560;
+  box-shadow:0 0 100px #000;
+  position:relative;
+  animation:rise .3s ease;
+}
+
+.modal-close {
+  position:absolute;
+  right:18px;
+  top:15px;
+  background:none;
+  border:none;
+  color:#aeb4c0;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.modal-box h2 {
+  font-family:'Barlow Condensed';
+  font-size:42px;
+  margin:20px 0 5px;
+}
+
+.modal-box p {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.checkout-summary {
+  padding:20px;
+  margin:20px 0;
+  background:#ffffff06;
+  border:1px solid var(--line);
+}
+
+.checkout-summary strong {
+  display:block;
+  font-family:'Barlow Condensed';
+  font-size:30px;
+}
+
+.checkout-summary span {font-size:10px;color:var(--muted)}
+
+.modal-warning {
+  padding:14px;
+  background:#ffc66d0d;
+  border-left:2px solid var(--gold);
+  color:#c9b99d;
+  font-size:10px;
+  line-height:1.8;
+}
+
+.modal-actions {display:grid;gap:10px;margin-top:20px}
+.modal-actions .btn {width:100%}
+
+/* FOOTER */
+
+.footer {
+  border-top:1px solid var(--line);
+  padding:35px 0 45px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:20px;
+  color:#77808e;
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.footer strong {color:white}
+.footer a {text-decoration:none}
+.footer a:hover {color:var(--accent)}
+
+.footer-links {display:flex;gap:20px}
+
+/* ANIMATIONS */
+
+.reveal {
+  opacity:0;
+  transform:translateY(25px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+
+.reveal.visible {opacity:1;transform:none}
+
+@keyframes blink {50%{opacity:.3}}
+@keyframes glow {50%{transform:scale(1.13);opacity:.6}}
+@keyframes rise {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px) {
+  .plans {grid-template-columns:repeat(2,1fr)}
+  .features-grid {grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:650px) {
+  .container {padding-left:20px;padding-right:20px}
+  .nav {height:70px}
+  .navlinks {display:none}
+  .hero {min-height:590px;padding-top:80px;padding-bottom:80px}
+  .hero h1 {font-size:105px}
+  .hero-meta {gap:15px}
+  .section {padding-top:75px;padding-bottom:75px}
+  .section-head {display:block}
+  .section-head p {margin-top:18px}
+  .plans,.features-grid {grid-template-columns:1fr}
+  .plan {min-height:auto;padding:27px}
+  .stats {grid-template-columns:1fr}
+  .stat {border-bottom:1px solid var(--line)}
+  .download-panel {padding:23px}
+  .download-panel .btn {width:100%}
+  .footer {padding-left:20px;padding-right:20px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+  .reveal {opacity:1;transform:none}
+}
+</style>
 </head>
 
 <body>
@@ -738,7 +803,8 @@
   <div class="navlinks">
     <a href="#about">About</a>
     <a href="#features">Features</a>
-    <a href="#plans">Plans</a>
+    <a href="#plans">Memberships</a>
+    <a href="#comparison">Comparison</a>
     <a href="#downloads">Downloads</a>
   </div>
 
@@ -748,376 +814,597 @@
 
 <main>
 
-  <!-- HERO -->
+<!-- HERO -->
 
-  <section class="hero container" id="about">
+<section class="hero container" id="about">
 
-    <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
 
-    <div class="hero-content">
+  <div class="hero-content">
 
-      <div class="eyebrow">
-        <span class="dot"></span>
-        Minecraft 1.8.9 · Client showcase
-      </div>
-
-      <h1>Beyond<span>Vanilla.</span></h1>
-
-      <p class="hero-description">
-        Welcome to LITTX. A new generation of Minecraft client
-        customization. Explore the free edition or unlock the
-        premium experience with LITTX+.
-      </p>
-
-      <div class="actions">
-        <a href="#downloads" class="btn btn-primary">
-          ↓ Download LITTX
-        </a>
-
-        <a href="#plans" class="btn btn-ghost">
-          Explore plans ↗
-        </a>
-      </div>
-
-      <div class="hero-meta">
-        <span><b>01</b> Free edition</span>
-        <span><b>02</b> Premium edition</span>
-        <span><b>03</b> Minecraft 1.8.9</span>
-      </div>
-
+    <div class="eyebrow">
+      <span class="dot"></span>
+      Minecraft 1.8.9 · The LITTX ecosystem
     </div>
 
-  </section>
+    <h1>Beyond<span>Vanilla.</span></h1>
 
-  <!-- FEATURES -->
+    <p class="hero-description">
+      A new generation of Minecraft client customization.
+      Discover the LITTX ecosystem, explore exclusive editions
+      and choose the membership that matches your experience.
+    </p>
 
-  <section class="section container reveal" id="features">
+    <div class="actions">
+      <a href="#downloads" class="btn btn-primary">↓ Explore downloads</a>
+      <a href="#plans" class="btn btn-ghost">Explore memberships ↗</a>
+    </div>
 
-    <div class="section-head">
+    <div class="hero-meta">
+      <span><b>01</b> Four editions</span>
+      <span><b>02</b> Premium ecosystem</span>
+      <span><b>03</b> Minecraft 1.8.9</span>
+    </div>
 
-      <div>
-        <div class="kicker">The LITTX experience</div>
-        <h2>More than<br>a client.</h2>
+  </div>
+
+</section>
+
+<!-- STATS -->
+
+<div class="container">
+  <div class="stats">
+    <div class="stat">
+      <strong>04</strong>
+      <span>Membership editions</span>
+    </div>
+    <div class="stat">
+      <strong>02</strong>
+      <span>Membership durations</span>
+    </div>
+    <div class="stat">
+      <strong>∞</strong>
+      <span>Possibilities</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+
+<section class="section container reveal" id="features">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">The LITTX ecosystem</div>
+      <h2>Beyond the<br>ordinary.</h2>
+    </div>
+
+    <p>
+      Explore the features, configurations and premium experiences
+      that make up the LITTX ecosystem.
+    </p>
+  </div>
+
+  <div class="features-grid">
+
+    <article class="feature">
+      <div class="feature-icon">◈</div>
+      <h3>Custom configurations</h3>
+      <p>Personalize your client experience with customizable settings and configurations.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>Regular releases</h3>
+      <p>Access published client updates and new releases.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">✦</div>
+      <h3>Premium access</h3>
+      <p>Unlock exclusive editions and additional membership content.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">⬡</div>
+      <h3>Custom builds</h3>
+      <p>Access eligible custom build requests with supported memberships.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">◎</div>
+      <h3>Community</h3>
+      <p>Connect with the LITTX community and discover exclusive benefits.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">∞</div>
+      <h3>Future releases</h3>
+      <p>Discover future LITTX content and membership improvements.</p>
+    </article>
+
+  </div>
+
+</section>
+
+<!-- MEMBERSHIPS -->
+
+<section class="section container reveal" id="plans">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Memberships & pricing</div>
+      <h2>Choose your<br>edition.</h2>
+    </div>
+
+    <p>
+      Four editions. Two membership durations.
+      Find the right LITTX experience for you.
+    </p>
+  </div>
+
+  <!-- DURATION SELECTOR -->
+
+  <div class="pricing-control">
+
+    <span class="billing-label active" id="monthlyLabel" onclick="setBilling('monthly')">
+      30 DAYS
+    </span>
+
+    <button
+      class="billing-toggle"
+      id="billingToggle"
+      onclick="toggleBilling()"
+      aria-label="Switch membership duration"
+      aria-pressed="false">
+    </button>
+
+    <span class="billing-label" id="foreverLabel" onclick="setBilling('forever')">
+      FOREVER
+    </span>
+
+    <span class="savings">ONE-TIME OPTION AVAILABLE</span>
+
+  </div>
+
+  <div class="plans">
+
+    <!-- FREE -->
+
+    <article class="plan">
+
+      <div class="plan-top">
+        <span class="plan-label">Edition 01 / Starter</span>
+        <span class="tag">FREE</span>
       </div>
 
-      <p>
-        Discover the LITTX ecosystem, including client releases,
-        premium configurations and future exclusive content.
-      </p>
+      <h3>LITTX FREE</h3>
 
-    </div>
-
-    <div class="features-grid">
-
-      <article class="feature">
-        <div class="feature-icon">◈</div>
-        <h3>Custom configurations</h3>
-        <p>Personalize your client experience with configurations and settings.</p>
-      </article>
-
-      <article class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>Regular releases</h3>
-        <p>Get access to published updates and new client versions.</p>
-      </article>
-
-      <article class="feature">
-        <div class="feature-icon">✦</div>
-        <h3>Premium access</h3>
-        <p>Unlock exclusive LITTX+ content and premium configurations.</p>
-      </article>
-
-      <article class="feature">
-        <div class="feature-icon">⬡</div>
-        <h3>Custom builds</h3>
-        <p>Request custom builds as part of your premium membership.</p>
-      </article>
-
-      <article class="feature">
-        <div class="feature-icon">◎</div>
-        <h3>Community</h3>
-        <p>Connect with the LITTX community and access exclusive Discord benefits.</p>
-      </article>
-
-      <article class="feature">
-        <div class="feature-icon">∞</div>
-        <h3>Future updates</h3>
-        <p>Keep access to future premium releases with the Forever plan.</p>
-      </article>
-
-    </div>
-
-  </section>
-
-  <!-- PLANS -->
-
-  <section class="section container reveal" id="plans">
-
-    <div class="section-head">
-
-      <div>
-        <div class="kicker">Memberships & pricing</div>
-        <h2>Choose your<br>edition.</h2>
+      <div class="plan-subtitle">
+        The essential LITTX experience.
       </div>
 
-      <p>
-        Start for free or choose LITTX+ for exclusive content,
-        premium downloads and additional benefits.
-      </p>
-
-    </div>
-
-    <div class="plans">
-
-      <!-- FREE -->
-
-      <article class="plan">
-
-        <div class="plan-top">
-          <span class="plan-label">Edition 01 / Starter</span>
-          <span class="tag">FREE</span>
-        </div>
-
-        <h3>LITTX FREE</h3>
-
-        <div class="price">
-          <strong>$0</strong>
-          <small>/ forever</small>
-        </div>
-
-        <p class="plan-desc">
-          Get started with the free LITTX Client release.
-          No subscription or purchase required.
-        </p>
-
-        <ul class="plan-features">
-          <li>Free client downloads</li>
-          <li>Public releases</li>
-          <li>Basic configurations</li>
-          <li>Community access</li>
-          <li>No payment required</li>
-        </ul>
-
-        <a href="#downloads" class="btn btn-ghost">
-          Get LITTX Free ↓
-        </a>
-
-      </article>
-
-      <!-- MONTHLY -->
-
-      <article class="plan featured">
-
-        <div class="plan-top">
-          <span class="plan-label">Edition 02 / Premium</span>
-          <span class="tag">POPULAR</span>
-        </div>
-
-        <h3>LITTX+</h3>
-
-        <div class="price">
-          <strong>$5</strong>
-          <small>/ 30 days</small>
-        </div>
-
-        <p class="plan-desc">
-          Unlock the complete premium experience for
-          30 days from successful activation.
-        </p>
-
-        <ul class="plan-features">
-          <li>All free edition benefits</li>
-          <li>Premium client downloads</li>
-          <li>Exclusive configurations</li>
-          <li>Custom build requests</li>
-          <li>Exclusive Discord role</li>
-          <li>LITTX+ releases</li>
-        </ul>
-
-        <button
-          class="btn btn-primary"
-          onclick="openCheckout('monthly')">
-          Get LITTX+ — $5
-        </button>
-
-        <div class="notice">
-          30-day membership. Access expires after the
-          activation period unless renewed.
-        </div>
-
-      </article>
-
-      <!-- FOREVER -->
-
-      <article class="plan">
-
-        <div class="plan-top">
-          <span class="plan-label">Edition 03 / Lifetime</span>
-          <span class="tag">FOREVER</span>
-        </div>
-
-        <h3>LITTX+ FOREVER</h3>
-
-        <div class="price">
-          <strong>$15</strong>
-          <small>/ one-time</small>
-        </div>
-
-        <p class="plan-desc">
-          Purchase permanent LITTX+ membership
-          without a recurring 30-day expiration.
-        </p>
-
-        <ul class="plan-features">
-          <li>Everything in LITTX+ Monthly</li>
-          <li>Permanent premium access</li>
-          <li>Future LITTX+ releases</li>
-          <li>Premium configurations</li>
-          <li>Custom build requests</li>
-          <li>Exclusive Discord role</li>
-        </ul>
-
-        <button
-          class="btn btn-ghost"
-          onclick="openCheckout('forever')">
-          Get Forever — $15
-        </button>
-
-        <div class="notice">
-          One-time purchase. No recurring subscription.
-        </div>
-
-      </article>
-
-    </div>
-
-  </section>
-
-  <!-- DOWNLOADS -->
-
-  <section class="section container reveal" id="downloads">
-
-    <div class="section-head">
-      <div>
-        <div class="kicker">Client releases</div>
-        <h2>Download<br>center.</h2>
+      <div class="plan-price">
+        <strong>$0</strong>
+        <small>/ forever</small>
       </div>
 
-      <p>
-        Access public releases or sign in to access
-        premium downloads included with your membership.
-      </p>
-    </div>
+      <div class="plan-period">No payment required</div>
 
-    <div class="download-panel">
+      <div class="plan-divider"></div>
 
-      <div>
-        <h3>LITTX FREE — 1.2.0</h3>
-        <p>Minecraft 1.8.9 · Public release · JAR</p>
-      </div>
+      <ul class="plan-features">
+        <li>Public client downloads</li>
+        <li>Basic configurations</li>
+        <li>Public releases</li>
+        <li>Community access</li>
+        <li>Standard updates</li>
+      </ul>
 
-      <a
-        class="btn btn-primary"
-        href="littx-client-1.2.0.jar"
-        download>
-        ↓ Download JAR
+      <a href="#downloads" class="btn btn-ghost">
+        Get started →
       </a>
 
-    </div>
+      <div class="plan-note">Free forever. No subscription.</div>
 
-    <div class="download-panel" style="margin-top:13px;">
+    </article>
 
-      <div>
-        <h3>LITTX+ RELEASES</h3>
-        <p>Premium releases and configurations · Requires LITTX+</p>
+    <!-- PLUS -->
+
+    <article class="plan featured">
+
+      <div class="plan-top">
+        <span class="plan-label">Edition 02 / Premium</span>
+        <span class="tag">POPULAR</span>
       </div>
 
-      <a class="btn btn-ghost" href="/dashboard/downloads">
-        Account required ↗
-      </a>
+      <h3>LITTX+</h3>
 
-    </div>
-
-    <div class="notice">
-      Only use client modifications where permitted by the
-      relevant server rules. Download files only from trusted
-      official sources.
-    </div>
-
-  </section>
-
-  <!-- ACCOUNT -->
-
-  <section class="section container reveal">
-
-    <div class="section-head">
-      <div>
-        <div class="kicker">Your membership</div>
-        <h2>Your LITTX<br>dashboard.</h2>
+      <div class="plan-subtitle">
+        Your entry into the premium ecosystem.
       </div>
 
-      <p>
-        Manage your membership, view your purchases,
-        redeem vouchers and access available downloads.
-      </p>
-    </div>
-
-    <div class="download-panel">
-
-      <div>
-        <h3>YOUR ACCOUNT</h3>
-        <p>Sign in to manage your LITTX membership and downloads.</p>
+      <div class="plan-price">
+        <strong data-price="plus">$5</strong>
+        <small data-period="plus">/ 30 days</small>
       </div>
 
-      <a href="/login" class="btn btn-primary">
-        Open dashboard ↗
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- FAQ -->
-
-  <section class="section container reveal" id="faq">
-
-    <div class="section-head">
-      <div>
-        <div class="kicker">Need answers?</div>
-        <h2>Frequently<br>asked.</h2>
+      <div class="plan-period" data-description="plus">
+        Premium membership
       </div>
+
+      <div class="plan-divider"></div>
+
+      <ul class="plan-features">
+        <li>Everything in Free</li>
+        <li>Premium downloads</li>
+        <li>Exclusive configurations</li>
+        <li>Custom build requests</li>
+        <li>Exclusive Discord role</li>
+        <li>Premium releases</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="openCheckout('plus')">
+        Get LITTX+ →
+      </button>
+
+      <div class="plan-note" data-note="plus">
+        $5 for 30 days
+      </div>
+
+    </article>
+
+    <!-- ULTIMATE -->
+
+    <article class="plan ultimate">
+
+      <div class="plan-top">
+        <span class="plan-label">Edition 03 / Advanced</span>
+        <span class="tag">ULTIMATE</span>
+      </div>
+
+      <h3>LITTX ULTIMATE</h3>
+
+      <div class="plan-subtitle">
+        The enhanced premium experience.
+      </div>
+
+      <div class="plan-price">
+        <strong data-price="ultimate">$15</strong>
+        <small data-period="ultimate">/ 30 days</small>
+      </div>
+
+      <div class="plan-period" data-description="ultimate">
+        Advanced membership
+      </div>
+
+      <div class="plan-divider"></div>
+
+      <ul class="plan-features">
+        <li>Everything in LITTX+</li>
+        <li>Ultimate configurations</li>
+        <li>Priority build requests</li>
+        <li>Additional exclusive content</li>
+        <li>Ultimate Discord role</li>
+        <li>Priority release access</li>
+      </ul>
+
+      <button class="btn btn-ghost" onclick="openCheckout('ultimate')">
+        Get Ultimate →
+      </button>
+
+      <div class="plan-note" data-note="ultimate">
+        $15 for 30 days
+      </div>
+
+    </article>
+
+    <!-- SUPPORTER -->
+
+    <article class="plan supporter">
+
+      <div class="plan-top">
+        <span class="plan-label">Edition 04 / Supporter</span>
+        <span class="tag">ELITE</span>
+      </div>
+
+      <h3>LITTX SUPPORTER</h3>
+
+      <div class="plan-subtitle">
+        Support the project at its highest tier.
+      </div>
+
+      <div class="plan-price">
+        <strong data-price="supporter">$75</strong>
+        <small data-period="supporter">/ 30 days</small>
+      </div>
+
+      <div class="plan-period" data-description="supporter">
+        Supporter membership
+      </div>
+
+      <div class="plan-divider"></div>
+
+      <ul class="plan-features">
+        <li>Everything in Ultimate</li>
+        <li>Supporter-exclusive content</li>
+        <li>Highest membership role</li>
+        <li>Priority support requests</li>
+        <li>Exclusive supporter benefits</li>
+        <li>Supporter recognition</li>
+      </ul>
+
+      <button class="btn btn-ghost" onclick="openCheckout('supporter')">
+        Become a Supporter →
+      </button>
+
+      <div class="plan-note" data-note="supporter">
+        $75 for 30 days
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
+<!-- COMPARISON -->
+
+<section class="section container reveal" id="comparison">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Compare editions</div>
+      <h2>Find your<br>level.</h2>
     </div>
 
-    <div class="faq-list">
+    <p>
+      Compare the benefits of every LITTX edition
+      before selecting your membership.
+    </p>
+  </div>
 
-      <details class="faq-item">
-        <summary>What is LITTX?</summary>
-        <p>LITTX is a Minecraft 1.8.9 client project with free and premium editions.</p>
-      </details>
+  <div class="comparison-wrap">
 
-      <details class="faq-item">
-        <summary>What is the difference between Monthly and Forever?</summary>
-        <p>Monthly costs $5 and provides 30 days of access. Forever costs $15 and provides permanent LITTX+ membership.</p>
-      </details>
+    <table class="comparison">
 
-      <details class="faq-item">
-        <summary>How can I pay?</summary>
-        <p>The planned checkout supports official Paysafecard merchant payments and voucher redemption. Payment methods must be configured and verified on the server before purchases can be completed.</p>
-      </details>
+      <thead>
+        <tr>
+          <th>FEATURE</th>
+          <th>LITTX FREE</th>
+          <th class="highlight-col">LITTX+</th>
+          <th>LITTX ULTIMATE</th>
+          <th>LITTX SUPPORTER</th>
+        </tr>
+      </thead>
 
-      <details class="faq-item">
-        <summary>What happens when my Monthly membership expires?</summary>
-        <p>Premium downloads and membership benefits become unavailable until the membership is renewed. Your account and purchase history remain available.</p>
-      </details>
+      <tbody>
 
-      <details class="faq-item">
-        <summary>How do vouchers work?</summary>
-        <p>Valid vouchers are checked by the server. If a voucher is accepted, the corresponding membership is activated and recorded in your account.</p>
-      </details>
+        <tr>
+          <td>Public downloads</td>
+          <td class="check">✓</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
 
+        <tr>
+          <td>Standard configurations</td>
+          <td class="check">✓</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Premium downloads</td>
+          <td class="cross">—</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Exclusive configurations</td>
+          <td class="cross">—</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Custom build requests</td>
+          <td class="cross">—</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Priority build requests</td>
+          <td class="cross">—</td>
+          <td class="cross highlight-col">—</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Additional exclusive content</td>
+          <td class="cross">—</td>
+          <td class="cross highlight-col">—</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Priority release access</td>
+          <td class="cross">—</td>
+          <td class="cross highlight-col">—</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Supporter-exclusive content</td>
+          <td class="cross">—</td>
+          <td class="cross highlight-col">—</td>
+          <td class="cross">—</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Highest membership role</td>
+          <td class="cross">—</td>
+          <td class="cross highlight-col">—</td>
+          <td class="cross">—</td>
+          <td class="check">✓</td>
+        </tr>
+
+        <tr>
+          <td>Community access</td>
+          <td class="check">✓</td>
+          <td class="check highlight-col">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p style="color:#77808e;font-size:10px;line-height:1.8;margin-top:15px">
+    Membership benefits are subject to actual feature availability and the applicable membership terms.
+  </p>
+
+</section>
+
+<!-- DOWNLOADS -->
+
+<section class="section container reveal" id="downloads">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Official releases</div>
+      <h2>Download<br>center.</h2>
     </div>
 
-  </section>
+    <p>
+      Get the public LITTX release or access eligible
+      premium content through your account.
+    </p>
+  </div>
+
+  <div class="download-panel">
+
+    <div>
+      <h3>LITTX FREE — 1.2.0</h3>
+      <p>Minecraft 1.8.9 · Public release · JAR</p>
+    </div>
+
+    <a class="btn btn-primary" href="littx-client-1.2.0.jar" download>
+      ↓ Download JAR
+    </a>
+
+  </div>
+
+  <div class="download-panel" style="margin-top:13px">
+
+    <div>
+      <h3>LITTX PREMIUM RELEASES</h3>
+      <p>Premium downloads and configurations · Membership required</p>
+    </div>
+
+    <a class="btn btn-ghost" href="/dashboard/downloads">
+      Open dashboard ↗
+    </a>
+
+  </div>
+
+  <div style="margin-top:17px" class="plan-note">
+    Only use client modifications where permitted by the relevant server rules.
+  </div>
+
+</section>
+
+<!-- ACCOUNT -->
+
+<section class="section container reveal">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Your membership</div>
+      <h2>Your LITTX<br>dashboard.</h2>
+    </div>
+
+    <p>
+      Manage your membership, view purchases,
+      redeem eligible vouchers and access downloads.
+    </p>
+  </div>
+
+  <div class="download-panel">
+
+    <div>
+      <h3>YOUR ACCOUNT</h3>
+      <p>Access your LITTX membership and account information.</p>
+    </div>
+
+    <a href="/login" class="btn btn-primary">
+      Open dashboard ↗
+    </a>
+
+  </div>
+
+</section>
+
+<!-- FAQ -->
+
+<section class="section container reveal" id="faq">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Need answers?</div>
+      <h2>Frequently<br>asked.</h2>
+    </div>
+  </div>
+
+  <div class="faq-list">
+
+    <details class="faq-item">
+      <summary>What is LITTX?</summary>
+      <p>LITTX is a Minecraft 1.8.9 client project with four membership editions.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What is the difference between the editions?</summary>
+      <p>Free provides public content, Plus introduces premium access, Ultimate adds advanced benefits, and Supporter is the highest membership tier.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Can I choose between 30 days and Forever?</summary>
+      <p>Yes. Plus, Ultimate and Supporter each have a 30-day option and a one-time Forever option. Free is always free.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What happens when my 30-day membership expires?</summary>
+      <p>Premium access expires after the membership period. Your account and purchase history should remain available.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Does Forever mean lifetime access?</summary>
+      <p>Forever is intended as a one-time purchase for permanent access to the purchased membership tier, subject to the published membership terms.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>How can I pay?</summary>
+      <p>Payment options will be displayed when the official payment provider and secure checkout backend are configured.</p>
+    </details>
+
+  </div>
+
+</section>
 
 </main>
 
@@ -1127,55 +1414,28 @@
 
   <div class="modal-box">
 
-    <button class="modal-close" onclick="closeCheckout()" aria-label="Close">
-      ×
-    </button>
+    <button class="modal-close" onclick="closeCheckout()" aria-label="Close">×</button>
 
     <div class="kicker">LITTX MEMBERSHIP</div>
 
-    <h2 id="checkoutTitle">Checkout.</h2>
+    <h2 id="checkoutTitle">Your edition.</h2>
 
-    <p id="checkoutDescription">
-      Choose your preferred payment method.
-    </p>
+    <p id="checkoutDescription">Review your selected membership.</p>
 
-    <label class="field-label" for="voucherCode">
-      Redeem voucher code
-    </label>
+    <div class="checkout-summary">
+      <strong id="checkoutPrice">$5 USD</strong>
+      <span id="checkoutDuration">30 days</span>
+    </div>
 
-    <input
-      class="field"
-      id="voucherCode"
-      type="text"
-      maxlength="100"
-      placeholder="Enter your voucher code"
-      autocomplete="off">
+    <div class="modal-warning">
+      <strong>Checkout not configured yet.</strong><br>
+      Your selection is ready, but purchases cannot be completed until a secure backend and payment provider are connected. No payment has been taken.
+    </div>
 
-    <button
-      class="btn btn-primary"
-      style="width:100%;margin-top:10px;"
-      onclick="redeemVoucher()">
-      Redeem voucher
-    </button>
-
-    <div class="status" id="voucherStatus" aria-live="polite"></div>
-
-    <div style="height:1px;background:var(--line);margin:25px 0;"></div>
-
-    <div class="kicker">PAYMENT METHOD</div>
-
-    <button class="payment-option" onclick="startCheckout('paysafecard')">
-      <strong>▣ Paysafecard</strong>
-      <span>Continue through the official merchant payment flow.</span>
-    </button>
-
-    <div class="status" id="paymentStatus" aria-live="polite"></div>
-
-    <div class="modal-note">
-      Payments are processed externally by the configured
-      payment provider. Never enter a Paysafecard PIN directly
-      into this website. Membership activates only after
-      verified payment confirmation.
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeCheckout()">
+        Continue browsing
+      </button>
     </div>
 
   </div>
@@ -1190,7 +1450,7 @@
 
   <span>Minecraft 1.8.9 · Unofficial community project</span>
 
-  <div style="display:flex;gap:20px;">
+  <div class="footer-links">
     <a href="#faq">FAQ</a>
     <a href="/terms">Terms</a>
     <a href="/privacy">Privacy</a>
@@ -1199,206 +1459,190 @@
 </footer>
 
 <script>
-  /*
-    LITTX WEBSITE CONFIGURATION
 
-    Backend endpoints required:
+/* ==================================
+   LITTX MEMBERSHIP CONFIGURATION
+================================== */
 
-    POST /api/checkout
-    POST /api/vouchers/redeem
+const MEMBERSHIPS = {
 
-    The backend must validate plans, prices, users,
-    voucher codes and payment confirmation.
+  plus: {
+    name: "LITTX+",
+    monthly: 5,
+    forever: 15
+  },
 
-    Never activate a paid membership using browser-only code.
-  */
+  ultimate: {
+    name: "LITTX ULTIMATE",
+    monthly: 15,
+    forever: 50
+  },
 
-  const API = {
-    checkout: "/api/checkout",
-    voucher: "/api/vouchers/redeem"
-  };
-
-  const PLANS = {
-    monthly: {
-      name: "LITTX+ Monthly",
-      price: 5,
-      currency: "USD",
-      duration: 30
-    },
-
-    forever: {
-      name: "LITTX+ Forever",
-      price: 15,
-      currency: "USD",
-      duration: null
-    }
-  };
-
-  let selectedPlan = null;
-
-  const modal = document.getElementById("checkoutModal");
-
-  function openCheckout(plan) {
-    if (!PLANS[plan]) return;
-
-    selectedPlan = plan;
-
-    const selected = PLANS[plan];
-
-    document.getElementById("checkoutTitle").textContent =
-      selected.name;
-
-    document.getElementById("checkoutDescription").textContent =
-      "$" + selected.price + " USD — " +
-      (selected.duration ? "30 days of membership." : "One-time lifetime purchase.");
-
-    document.getElementById("voucherCode").value = "";
-    document.getElementById("voucherStatus").textContent = "";
-    document.getElementById("paymentStatus").textContent = "";
-
-    modal.classList.add("open");
-    document.body.style.overflow = "hidden";
+  supporter: {
+    name: "LITTX SUPPORTER",
+    monthly: 75,
+    forever: 250
   }
 
-  function closeCheckout() {
-    modal.classList.remove("open");
-    document.body.style.overflow = "";
-    selectedPlan = null;
-  }
+};
 
-  modal.addEventListener("click", event => {
-    if (event.target === modal) closeCheckout();
+let billingMode = "monthly";
+let selectedPlan = null;
+
+/* ==================================
+   BILLING SELECTOR
+================================== */
+
+function setBilling(mode) {
+
+  if (mode !== "monthly" && mode !== "forever") return;
+
+  billingMode = mode;
+
+  const toggle = document.getElementById("billingToggle");
+  const monthly = document.getElementById("monthlyLabel");
+  const forever = document.getElementById("foreverLabel");
+
+  toggle.classList.toggle("forever", mode === "forever");
+  toggle.setAttribute("aria-pressed", String(mode === "forever"));
+
+  monthly.classList.toggle("active", mode === "monthly");
+  forever.classList.toggle("active", mode === "forever");
+
+  updatePricing();
+
+}
+
+function toggleBilling() {
+  setBilling(billingMode === "monthly" ? "forever" : "monthly");
+}
+
+/* ==================================
+   DYNAMIC PRICING
+================================== */
+
+function updatePricing() {
+
+  Object.entries(MEMBERSHIPS).forEach(([id, plan]) => {
+
+    const price = plan[billingMode];
+
+    const priceElement = document.querySelector(`[data-price="${id}"]`);
+    const periodElement = document.querySelector(`[data-period="${id}"]`);
+    const descriptionElement = document.querySelector(`[data-description="${id}"]`);
+    const noteElement = document.querySelector(`[data-note="${id}"]`);
+
+    priceElement.textContent = "$" + price;
+    periodElement.textContent = billingMode === "monthly" ? "/ 30 days" : "/ forever";
+
+    descriptionElement.textContent =
+      billingMode === "monthly"
+        ? "30-day membership"
+        : "One-time permanent membership";
+
+    noteElement.textContent =
+      billingMode === "monthly"
+        ? "$" + price + " for 30 days"
+        : "$" + price + " one-time purchase";
+
   });
 
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeCheckout();
+}
+
+/* ==================================
+   CHECKOUT
+================================== */
+
+const modal = document.getElementById("checkoutModal");
+
+function openCheckout(planId) {
+
+  const plan = MEMBERSHIPS[planId];
+
+  if (!plan) return;
+
+  selectedPlan = {
+    id: planId,
+    name: plan.name,
+    price: plan[billingMode],
+    duration: billingMode
+  };
+
+  document.getElementById("checkoutTitle").textContent = plan.name;
+
+  document.getElementById("checkoutDescription").textContent =
+    "Review your selected LITTX membership before continuing.";
+
+  document.getElementById("checkoutPrice").textContent =
+    "$" + selectedPlan.price + " USD";
+
+  document.getElementById("checkoutDuration").textContent =
+    billingMode === "monthly"
+      ? "30-day membership"
+      : "One-time Forever membership";
+
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+}
+
+function closeCheckout() {
+
+  modal.classList.remove("open");
+  document.body.style.overflow = "";
+  selectedPlan = null;
+
+}
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeCheckout();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && modal.classList.contains("open")) {
+    closeCheckout();
+  }
+});
+
+/* ==================================
+   SCROLL REVEAL
+================================== */
+
+const revealItems = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+
+  const observer = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+      if (entry.isIntersecting) {
+
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+
+      }
+
+    });
+
+  }, {
+    threshold: 0.10
   });
 
-  function showStatus(id, message, type = "") {
-    const element = document.getElementById(id);
-    element.textContent = message;
-    element.className = "status " + type;
-  }
+  revealItems.forEach(item => observer.observe(item));
 
-  async function startCheckout(method) {
-    if (!selectedPlan) return;
+} else {
 
-    const status = document.getElementById("paymentStatus");
+  revealItems.forEach(item => item.classList.add("visible"));
 
-    showStatus("paymentStatus", "Connecting to checkout...");
+}
 
-    try {
-      const response = await fetch(API.checkout, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          plan: selectedPlan,
-          payment_method: method
-        })
-      });
+/* ==================================
+   INITIALIZATION
+================================== */
 
-      const data = await response.json();
+updatePricing();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Checkout is not currently available.");
-      }
-
-      if (!data.checkout_url) {
-        throw new Error("The payment provider did not return a checkout URL.");
-      }
-
-      const checkoutURL = new URL(data.checkout_url);
-
-      if (checkoutURL.protocol !== "https:") {
-        throw new Error("Invalid payment checkout URL.");
-      }
-
-      window.location.assign(checkoutURL.href);
-
-    } catch (error) {
-      showStatus(
-        "paymentStatus",
-        error.message || "Unable to start checkout.",
-        "error"
-      );
-    }
-  }
-
-  async function redeemVoucher() {
-    if (!selectedPlan) return;
-
-    const code = document.getElementById("voucherCode").value.trim();
-
-    if (!code) {
-      showStatus("voucherStatus", "Enter a voucher code first.", "error");
-      return;
-    }
-
-    showStatus("voucherStatus", "Checking voucher...");
-
-    try {
-      const response = await fetch(API.voucher, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          code,
-          plan: selectedPlan
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Voucher could not be redeemed.");
-      }
-
-      if (data.activated !== true) {
-        throw new Error("Voucher activation has not been confirmed.");
-      }
-
-      showStatus(
-        "voucherStatus",
-        "Voucher successfully verified. Your membership has been activated.",
-        "success"
-      );
-
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 1200);
-
-    } catch (error) {
-      showStatus(
-        "voucherStatus",
-        error.message || "Unable to verify voucher.",
-        "error"
-      );
-    }
-  }
-
-  // Scroll animations
-
-  const revealItems = document.querySelectorAll(".reveal");
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealItems.forEach(item => observer.observe(item));
-  } else {
-    revealItems.forEach(item => item.classList.add("visible"));
-  }
 </script>
 
 </body>

@@ -5,50 +5,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080a0b">
-<title>LITTX — Minecraft Client</title>
-<meta name="description" content="Discover LITTX, a modern Minecraft 1.8.9 client experience.">
+<title>LITTX — V3.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg:#080a0b;
-  --panel:#101514;
-  --panel2:#151c19;
-  --line:rgba(255,255,255,.085);
-  --text:#f1f5ef;
-  --muted:#929d95;
-  --green:#b7f34a;
-  --green2:#d0ff79;
+:root{
+  --bg:#080a0b;--panel:#101615;--panel2:#151d19;
+  --line:rgba(255,255,255,.09);--text:#f2f5ef;
+  --muted:#929d95;--green:#b7f34a;--green2:#d1ff7b;
   --red:#ff7777;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
 body:before{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse at 50% -20%,rgba(183,243,74,.12),transparent 50%);
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 15% 5%,rgba(183,243,74,.12),transparent 35%),
+    radial-gradient(ellipse at 90% 50%,rgba(90,150,55,.08),transparent 35%);
 }
-button,input{font:inherit}
+body:after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.13;
+  background-image:radial-gradient(rgba(255,255,255,.22) .7px,transparent .7px);
+  background-size:28px 28px;
+}
+button,input,select{font:inherit}
 button,a{-webkit-tap-highlight-color:transparent}
-a{text-decoration:none;color:inherit}
 button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 ::selection{background:var(--green);color:#080a0b}
 
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.8;transform:scale(1.12)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes shine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+
 .nav{
-  height:75px;position:sticky;top:0;z-index:100;
+  height:74px;position:sticky;top:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 7%;background:rgba(8,10,11,.88);
-  border-bottom:1px solid var(--line);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(20px);
 }
 .logo{font-family:'Barlow Condensed';font-size:34px;font-weight:900;letter-spacing:2px}
 .logo span{color:var(--green)}
-.nav-links{display:flex;align-items:center;gap:27px}
-.nav-links a{font-size:11px;font-weight:800;color:#aab3ac;transition:.2s}
+.nav-links{display:flex;gap:25px;align-items:center}
+.nav-links a{font-size:10px;font-weight:900;color:#aab3ac;transition:.2s}
 .nav-links a:hover,.nav-links a.active{color:var(--green)}
-.nav-actions{display:flex;gap:10px;align-items:center}
-.menu-btn{display:none;background:none;border:0;color:white;font-size:25px}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;background:none;border:0;color:white;font-size:24px}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
@@ -56,56 +63,75 @@ button{cursor:pointer}
   font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;
   transition:.2s;
 }
-.btn:hover{transform:translateY(-2px)}
+.btn:hover{transform:translateY(-3px)}
 .btn-green{background:var(--green);border-color:var(--green);color:#10140a}
-.btn-green:hover{background:var(--green2)}
-.btn-dark{background:#151b18;color:white}
+.btn-green:hover{background:var(--green2);box-shadow:0 0 25px rgba(183,243,74,.2)}
+.btn-dark{background:#151c19;color:white}
 .btn-dark:hover{border-color:var(--green);color:var(--green)}
 .btn-small{padding:9px 14px}
-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-red{background:rgba(255,80,80,.1);color:#ff9292;border-color:rgba(255,80,80,.2)}
+button:disabled{opacity:.4;cursor:not-allowed}
 
-.page{display:none;animation:fade .3s ease}
+.page{display:none;animation:fadeUp .4s ease}
 .page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .container{width:min(1160px,88%);margin:auto}
 .section{padding:90px 0}
 .eyebrow{font-size:10px;color:var(--green);font-weight:900;letter-spacing:3px;text-transform:uppercase}
-.title{font-family:'Barlow Condensed';font-size:clamp(42px,7vw,70px);font-weight:900;line-height:.95;text-transform:uppercase}
-.subtitle{font-size:13px;line-height:1.9;color:var(--muted);max-width:580px;margin-top:14px}
+.title{font-family:'Barlow Condensed';font-size:clamp(42px,7vw,72px);font-weight:900;line-height:.94;text-transform:uppercase}
+.subtitle{font-size:13px;line-height:1.9;color:var(--muted);max-width:590px;margin-top:14px}
 
-.hero{min-height:670px;display:flex;align-items:center;position:relative;overflow:hidden;padding:95px 0}
+.hero{min-height:690px;display:flex;align-items:center;position:relative;overflow:hidden;padding:90px 0}
 .hero:after{
-  content:"L";position:absolute;right:8%;top:50%;transform:translateY(-50%);
+  content:"L";position:absolute;right:7%;top:50%;transform:translateY(-50%);
   font-family:'Barlow Condensed';font-weight:900;font-size:650px;
   color:rgba(183,243,74,.035);pointer-events:none;line-height:1;
 }
-.hero-content{position:relative;z-index:2;max-width:720px}
-.hero h1{font-family:'Barlow Condensed';font-size:clamp(78px,13vw,145px);font-weight:900;line-height:.78;letter-spacing:-2px;margin:27px 0}
+.hero-glow{
+  position:absolute;width:350px;height:350px;border-radius:50%;
+  background:rgba(183,243,74,.13);filter:blur(100px);
+  right:17%;top:25%;animation:pulse 7s infinite;
+}
+.hero-content{position:relative;z-index:2;max-width:730px;animation:fadeUp .8s ease}
+.hero h1{font-family:'Barlow Condensed';font-size:clamp(80px,13vw,150px);font-weight:900;line-height:.76;letter-spacing:-2px;margin:28px 0}
 .hero h1 span{color:var(--green)}
-.hero p{max-width:520px;color:#a8b1aa;font-size:14px;line-height:1.9}
+.hero p{max-width:520px;color:#aab2ac;font-size:14px;line-height:1.9}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
 .hero-meta{display:flex;gap:30px;flex-wrap:wrap;margin-top:55px}
-.meta strong{display:block;font-family:'Barlow Condensed';font-size:26px}
+.meta strong{display:block;font-family:'Barlow Condensed';font-size:27px}
 .meta span{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 
-.stats{padding:23px 0;border-block:1px solid var(--line)}
+.stats{padding:24px 0;border-block:1px solid var(--line)}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center}
-.stat strong{font-family:'Barlow Condensed';font-size:25px;color:var(--green)}
+.stat strong{font-family:'Barlow Condensed';font-size:26px;color:var(--green)}
 .stat span{display:block;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:38px}
 .card{
-  padding:26px;background:linear-gradient(145deg,#151b19,#0e1211);
-  border:1px solid var(--line);border-radius:14px;transition:.25s;
+  padding:27px;background:linear-gradient(145deg,#151d19,#0d1210);
+  border:1px solid var(--line);border-radius:14px;transition:.3s;
 }
-.card:hover{transform:translateY(-4px);border-color:rgba(183,243,74,.35)}
+.card:hover{transform:translateY(-6px);border-color:rgba(183,243,74,.4);box-shadow:0 15px 45px rgba(0,0,0,.25)}
 .card-icon{
-  width:42px;height:42px;display:grid;place-items:center;
+  width:43px;height:43px;display:grid;place-items:center;
   background:rgba(183,243,74,.1);color:var(--green);
   border-radius:10px;font-size:20px;margin-bottom:20px;
 }
 .card h3{font-size:14px;margin-bottom:9px}
 .card p{font-size:11px;color:var(--muted);line-height:1.9}
+
+/* Image gallery */
+.gallery{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:13px;margin-top:40px}
+.gallery-item{
+  height:260px;position:relative;overflow:hidden;
+  border:1px solid var(--line);border-radius:13px;background:#121916;
+}
+.gallery-item:first-child{height:300px}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s,filter .5s;filter:brightness(.75)}
+.gallery-item:hover img{transform:scale(1.08);filter:brightness(1)}
+.gallery-item:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.gallery-caption{position:absolute;bottom:18px;left:19px;z-index:2}
+.gallery-caption strong{font-family:'Barlow Condensed';font-size:23px;text-transform:uppercase}
+.gallery-caption span{display:block;font-size:9px;color:#c4d0c5;letter-spacing:1px}
 
 .plans-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
 .billing{display:flex;gap:5px;padding:5px;border:1px solid var(--line);background:#111715;border-radius:8px}
@@ -113,10 +139,11 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .billing button.selected{background:var(--green);color:#10140a}
 .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:38px}
 .plan{
-  position:relative;display:flex;flex-direction:column;
-  min-height:390px;padding:24px 20px;border:1px solid var(--line);
-  border-radius:14px;background:linear-gradient(150deg,#151b19,#0c100f);
+  position:relative;display:flex;flex-direction:column;min-height:390px;
+  padding:24px 20px;border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(150deg,#151d19,#0c100f);transition:.3s;
 }
+.plan:hover{transform:translateY(-6px)}
 .plan.featured{border-color:rgba(183,243,74,.65);box-shadow:0 0 35px rgba(183,243,74,.07)}
 .tag{position:absolute;top:14px;right:13px;background:var(--green);color:#111;padding:5px 8px;border-radius:4px;font-size:8px;font-weight:900}
 .plan h3{font-family:'Barlow Condensed';font-size:27px;margin-top:10px}
@@ -147,6 +174,51 @@ tr:last-child td{border-bottom:0}
 .cta h2{font-family:'Barlow Condensed';font-size:40px}
 .cta p{font-size:11px;color:var(--muted);margin-top:8px}
 
+.auth-area{min-height:640px;display:grid;place-items:center;padding:55px 0}
+.auth-card{width:min(440px,100%);padding:32px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#151d19,#0c100f)}
+.auth-card h1{font-family:'Barlow Condensed';font-size:43px;margin-top:5px}
+.auth-card>p{font-size:11px;color:var(--muted);margin:7px 0 25px}
+.field{margin:14px 0}
+.field label{display:block;font-size:9px;color:#aab4ac;font-weight:900;letter-spacing:1px;margin-bottom:8px}
+.field input,.field select{
+  width:100%;padding:13px;background:#090d0c;color:white;
+  border:1px solid var(--line);border-radius:6px;outline:none;font-size:11px;
+}
+.field input:focus,.field select:focus{border-color:var(--green)}
+.field select option{background:#101615}
+.auth-card>.btn{width:100%;margin-top:10px}
+.auth-switch{text-align:center;font-size:10px;color:var(--muted);margin-top:19px}
+.auth-switch button{background:none;border:0;color:var(--green);font-weight:900}
+.notice{margin-top:17px;padding:12px;border-radius:7px;background:rgba(183,243,74,.08);color:#c8e99c;font-size:10px;line-height:1.8}
+.message{font-size:11px;color:var(--red);margin:10px 0;line-height:1.7}
+.message.success{color:var(--green)}
+
+.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px}
+.dash-card{padding:24px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.dash-card h3{font-size:12px;margin-bottom:12px}
+.dash-value{font-family:'Barlow Condensed';font-size:34px;color:var(--green);overflow-wrap:anywhere}
+.dash-card p{font-size:10px;color:var(--muted);line-height:1.8}
+.dash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:11px;margin-top:15px}
+.download-card h3{font-size:13px}
+.download-card p{font-size:10px;color:var(--muted);margin-top:5px}
+
+.admin-box{padding:25px;background:linear-gradient(145deg,#151d19,#0d1210);border:1px solid rgba(183,243,74,.25);border-radius:13px;margin-top:25px}
+.admin-box h2{font-family:'Barlow Condensed';font-size:30px;margin-bottom:15px}
+.admin-form{display:grid;grid-template-columns:repeat(2,1fr);gap:0 15px}
+.admin-form .full{grid-column:1/-1}
+.code-list{margin-top:22px;display:grid;gap:10px}
+.code-row{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr auto;
+  align-items:center;gap:12px;padding:15px;
+  background:#0b100e;border:1px solid var(--line);border-radius:9px;
+}
+.code-text{font-family:monospace;color:var(--green);font-size:12px;overflow-wrap:anywhere}
+.code-info{font-size:9px;color:var(--muted);line-height:1.7}
+.code-actions{display:flex;gap:5px;flex-wrap:wrap}
+.code-actions button{padding:7px 9px;font-size:9px}
+.empty{padding:25px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:11px;margin-top:18px}
+
 .faq{max-width:800px;margin:35px auto 0}
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-question{width:100%;padding:20px 0;border:0;background:none;color:white;text-align:left;display:flex;justify-content:space-between;font-size:12px;font-weight:800}
@@ -159,58 +231,28 @@ tr:last-child td{border-bottom:0}
 .footer p,.footer a{font-size:10px;color:var(--muted)}
 .footer-links{display:flex;gap:18px;flex-wrap:wrap}
 
-.inner-hero{padding:70px 0 20px}
-.inner-hero h1{font-family:'Barlow Condensed';font-size:75px;text-transform:uppercase}
-.inner-hero p{color:var(--muted);font-size:12px;margin-top:8px}
-
-.auth-area{min-height:640px;display:grid;place-items:center;padding:55px 0}
-.auth-card{width:min(440px,100%);padding:32px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#151b19,#0c100f)}
-.auth-card h1{font-family:'Barlow Condensed';font-size:43px;margin-top:5px}
-.auth-card>p{font-size:11px;color:var(--muted);margin:7px 0 25px}
-.field{margin:14px 0}
-.field label{display:block;font-size:9px;color:#aab4ac;font-weight:900;letter-spacing:1px;margin-bottom:8px}
-.field input{width:100%;padding:13px;background:#090d0c;color:white;border:1px solid var(--line);border-radius:6px;outline:none;font-size:11px}
-.field input:focus{border-color:var(--green)}
-.auth-card>.btn{width:100%;margin-top:10px}
-.auth-switch{text-align:center;font-size:10px;color:var(--muted);margin-top:19px}
-.auth-switch button{background:none;border:0;color:var(--green);font-weight:900}
-.notice{margin-top:17px;padding:12px;border-radius:7px;background:rgba(183,243,74,.08);color:#c8e99c;font-size:10px;line-height:1.8}
-.message{font-size:11px;color:var(--red);margin:10px 0;line-height:1.7}
-.message.success{color:var(--green)}
-
-.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px}
-.dash-card{padding:24px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-.dash-card h3{font-size:12px;margin-bottom:12px}
-.dash-value{font-family:'Barlow Condensed';font-size:34px;color:var(--green)}
-.dash-card p{font-size:10px;color:var(--muted);line-height:1.8}
-.dash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
-.download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:11px;margin-top:15px}
-.download-card h3{font-size:13px}
-.download-card p{font-size:10px;color:var(--muted);margin-top:5px}
-.empty{padding:28px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:11px;margin-top:18px}
 .toast{
   position:fixed;bottom:22px;right:22px;z-index:200;
-  max-width:350px;padding:15px 19px;border-radius:9px;
+  max-width:360px;padding:15px 19px;border-radius:9px;
   background:#1b2419;border:1px solid rgba(183,243,74,.35);
   color:#e5f6d3;font-size:11px;line-height:1.6;
   opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;
 }
 .toast.show{opacity:1;transform:translateY(0)}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:150;place-items:center;padding:20px}
-.modal-bg.show{display:grid}
-.modal{width:min(420px,100%);background:#111715;border:1px solid var(--line);border-radius:14px;padding:28px}
-.modal h2{font-family:'Barlow Condensed';font-size:34px}
-.modal p{font-size:11px;color:var(--muted);line-height:1.8;margin:12px 0}
-.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 
-@media(max-width:900px){
+@media(max-width:950px){
   .plans{grid-template-columns:repeat(2,1fr)}
-  .grid{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gallery-item:first-child{grid-column:1/-1}
 }
 @media(max-width:650px){
   .nav{height:65px;padding:0 5%}
   .menu-btn{display:block}
-  .nav-links{display:none;position:absolute;top:65px;left:0;right:0;background:#0c110f;padding:20px;flex-direction:column;align-items:stretch;border-bottom:1px solid var(--line)}
+  .nav-links{
+    display:none;position:absolute;top:65px;left:0;right:0;
+    background:#0c110f;padding:20px;flex-direction:column;
+    align-items:stretch;border-bottom:1px solid var(--line)
+  }
   .nav-links.show{display:flex}
   .nav-links a{padding:9px}
   .hero{min-height:570px;padding:65px 0}
@@ -220,8 +262,13 @@ tr:last-child td{border-bottom:0}
   .plan{min-height:0}
   .stats-grid{grid-template-columns:1fr;gap:15px}
   .cta{padding:28px}
-  .download-card{align-items:flex-start;flex-direction:column}
+  .gallery{grid-template-columns:1fr}
+  .gallery-item,.gallery-item:first-child{height:230px;grid-column:auto}
+  .admin-form{grid-template-columns:1fr}
+  .admin-form .full{grid-column:auto}
+  .code-row{grid-template-columns:1fr 1fr}
   .auth-card{padding:24px}
+  .download-card{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
@@ -230,36 +277,35 @@ tr:last-child td{border-bottom:0}
 
 <header class="nav">
   <a href="#home" class="logo" onclick="navigate('home')">LITT<span>X</span></a>
-
   <nav class="nav-links" id="navLinks">
     <a href="#home" data-nav="home" onclick="navigate('home')">Home</a>
     <a href="#features" data-nav="features" onclick="navigate('features')">Features</a>
     <a href="#plans" data-nav="plans" onclick="navigate('plans')">Plans</a>
     <a href="#downloads" data-nav="downloads" onclick="navigate('downloads')">Downloads</a>
   </nav>
-
   <div class="nav-actions">
     <a href="#login" class="btn btn-dark btn-small" id="accountButton" onclick="navigate('login')">Account</a>
-    <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
   </div>
 </header>
 
 <!-- HOME -->
-<main id="home" class="page active">
+<main id="home" class="page">
   <section class="hero">
+    <div class="hero-glow"></div>
     <div class="container">
       <div class="hero-content">
-        <div class="eyebrow">Minecraft 1.8.9 · Client experience</div>
+        <div class="eyebrow">Minecraft 1.8.9 · Version 3.0</div>
         <h1>PLAY<br><span>WITHOUT</span><br>LIMITS.</h1>
-        <p>A modern Minecraft client experience built around performance, customization and a clean interface. Discover LITTX.</p>
+        <p>A modern Minecraft client experience built around performance, customization and a clean interface. Welcome to LITTX V3.</p>
         <div class="hero-actions">
           <a href="#plans" onclick="navigate('plans')" class="btn btn-green">Explore plans ↗</a>
           <a href="#features" onclick="navigate('features')" class="btn btn-dark">Discover LITTX</a>
         </div>
         <div class="hero-meta">
           <div class="meta"><strong>1.8.9</strong><span>Minecraft version</span></div>
+          <div class="meta"><strong>03.0</strong><span>Website version</span></div>
           <div class="meta"><strong>04</strong><span>Membership tiers</span></div>
-          <div class="meta"><strong>LITTX</strong><span>Your experience</span></div>
         </div>
       </div>
     </div>
@@ -268,7 +314,7 @@ tr:last-child td{border-bottom:0}
   <div class="stats">
     <div class="container stats-grid">
       <div class="stat"><strong>PERFORMANCE</strong><span>Performance focused</span></div>
-      <div class="stat"><strong>CUSTOMIZATION</strong><span>Personalize your setup</span></div>
+      <div class="stat"><strong>CUSTOMIZATION</strong><span>Your own experience</span></div>
       <div class="stat"><strong>COMMUNITY</strong><span>Made for players</span></div>
     </div>
   </div>
@@ -276,8 +322,28 @@ tr:last-child td{border-bottom:0}
   <section class="section">
     <div class="container">
       <div class="eyebrow">The LITTX experience</div>
-      <h2 class="title">MORE THAN A CLIENT.</h2>
-      <p class="subtitle">A polished experience with a focus on usability, customization and performance.</p>
+      <h2 class="title">A NEW LEVEL.</h2>
+      <p class="subtitle">Explore the visuals and the experience behind LITTX.</p>
+
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="images/Image1.jpg" alt="LITTX showcase image 1">
+          <div class="gallery-caption"><strong>The experience</strong><span>LITTX CLIENT</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/Image2.jpg" alt="LITTX showcase image 2">
+          <div class="gallery-caption"><strong>Performance</strong><span>BUILT FOR PLAYERS</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/Image3.jpg" alt="LITTX showcase image 3">
+          <div class="gallery-caption"><strong>Customization</strong><span>MAKE IT YOURS</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
       <div class="grid">
         <article class="card"><div class="card-icon">⚡</div><h3>Performance</h3><p>A streamlined client experience designed with performance in mind.</p></article>
         <article class="card"><div class="card-icon">◈</div><h3>Customization</h3><p>Personalize your setup and make your experience unique.</p></article>
@@ -302,10 +368,10 @@ tr:last-child td{border-bottom:0}
     <div class="container">
       <div class="eyebrow">The experience</div>
       <h1 class="title">BUILT AROUND YOU.</h1>
-      <p class="subtitle">Explore the design goals behind LITTX. Actual features depend on the client release.</p>
+      <p class="subtitle">A polished experience with a focus on usability, customization and performance.</p>
       <div class="grid">
         <article class="card"><div class="card-icon">⚡</div><h3>Performance</h3><p>Performance-conscious design and a streamlined experience.</p></article>
-        <article class="card"><div class="card-icon">◈</div><h3>Visual customization</h3><p>Customize the appearance of your client interface.</p></article>
+        <article class="card"><div class="card-icon">◈</div><h3>Customization</h3><p>Personalize your interface and setup.</p></article>
         <article class="card"><div class="card-icon">▤</div><h3>Organization</h3><p>Keep your settings and tools organized.</p></article>
         <article class="card"><div class="card-icon">⌘</div><h3>Convenience</h3><p>Quick access to frequently used options.</p></article>
         <article class="card"><div class="card-icon">◎</div><h3>Updates</h3><p>Check the downloads area for available releases.</p></article>
@@ -323,7 +389,7 @@ tr:last-child td{border-bottom:0}
         <div>
           <div class="eyebrow">Memberships</div>
           <h1 class="title">CHOOSE YOUR PLAN.</h1>
-          <p class="subtitle">Select your preferred billing period. All prices are in USD.</p>
+          <p class="subtitle">Select your preferred billing period. Prices are in USD. Payments are currently disabled.</p>
         </div>
         <div class="billing">
           <button id="monthlyButton" class="selected" onclick="setBilling('monthly')">30 DAYS</button>
@@ -333,8 +399,7 @@ tr:last-child td{border-bottom:0}
 
       <div class="plans">
         <article class="plan">
-          <h3>LITTX FREE</h3>
-          <p class="plan-desc">The essential LITTX experience.</p>
+          <h3>LITTX FREE</h3><p class="plan-desc">The essential LITTX experience.</p>
           <div class="price"><strong>$0</strong><span>/ forever</span></div>
           <p class="plan-note">Free forever</p>
           <ul><li>Free membership</li><li>Basic client access</li><li>Standard updates</li><li>Community access</li></ul>
@@ -343,8 +408,7 @@ tr:last-child td{border-bottom:0}
 
         <article class="plan featured">
           <span class="tag">POPULAR</span>
-          <h3>LITTX+</h3>
-          <p class="plan-desc">For players who want more.</p>
+          <h3>LITTX+</h3><p class="plan-desc">For players who want more.</p>
           <div class="price"><strong id="pricePlus">$5</strong><span id="periodPlus">/ 30 days</span></div>
           <p class="plan-note" id="notePlus">$5 every 30 days</p>
           <ul><li>Everything in Free</li><li>Plus membership status</li><li>Plus content access</li><li>Membership updates</li></ul>
@@ -352,8 +416,7 @@ tr:last-child td{border-bottom:0}
         </article>
 
         <article class="plan">
-          <h3>LITTX ULTIMATE</h3>
-          <p class="plan-desc">The advanced membership tier.</p>
+          <h3>LITTX ULTIMATE</h3><p class="plan-desc">The advanced membership tier.</p>
           <div class="price"><strong id="priceUltimate">$15</strong><span id="periodUltimate">/ 30 days</span></div>
           <p class="plan-note" id="noteUltimate">$15 every 30 days</p>
           <ul><li>Everything in Plus</li><li>Ultimate membership status</li><li>Ultimate content access</li><li>Premium updates</li></ul>
@@ -361,8 +424,7 @@ tr:last-child td{border-bottom:0}
         </article>
 
         <article class="plan">
-          <h3>LITTX SUPPORTER</h3>
-          <p class="plan-desc">Support the future of LITTX.</p>
+          <h3>LITTX SUPPORTER</h3><p class="plan-desc">Support the future of LITTX.</p>
           <div class="price"><strong id="priceSupporter">$75</strong><span id="periodSupporter">/ 30 days</span></div>
           <p class="plan-note" id="noteSupporter">$75 every 30 days</p>
           <ul><li>Everything in Ultimate</li><li>Supporter membership status</li><li>Supporter content access</li><li>Support development</li></ul>
@@ -382,7 +444,6 @@ tr:last-child td{border-bottom:0}
               <tr><td>Plus content</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
               <tr><td>Ultimate content</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
               <tr><td>Supporter status</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Support development</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
             </tbody>
           </table>
         </div>
@@ -398,18 +459,11 @@ tr:last-child td{border-bottom:0}
       <div class="eyebrow">Release center</div>
       <h1 class="title">DOWNLOAD LITTX.</h1>
       <p class="subtitle">Get the official LITTX client release.</p>
-
       <div class="download-card">
         <div><h3>LITTX Client — Minecraft 1.8.9</h3><p>Official client release · Current version</p></div>
         <a class="btn btn-green" href="downloads/littx-client.jar" download>Download ↗</a>
       </div>
-
-      <div class="download-card">
-        <div><h3>Release information</h3><p>Release notes and future updates.</p></div>
-        <span class="eyebrow">Release center</span>
-      </div>
-
-      <div class="notice">Place your actual client file at <b>downloads/littx-client.jar</b> in your GitHub repository. The download link will work after that file is uploaded.</div>
+      <div class="notice">Upload your actual client file as <b>downloads/littx-client.jar</b> in your repository.</div>
     </div>
   </section>
 </main>
@@ -421,13 +475,13 @@ tr:last-child td{border-bottom:0}
       <form class="auth-card" onsubmit="login(event)">
         <div class="eyebrow">LITTX ACCOUNT</div>
         <h1>WELCOME BACK.</h1>
-        <p>Sign in to your local demonstration account.</p>
-        <div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="you@example.com" required></div>
-        <div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="Password" required></div>
+        <p>Sign in to your demonstration account.</p>
+        <div class="field"><label>Email</label><input id="loginEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input id="loginPassword" type="password" required placeholder="Password"></div>
         <div id="loginMessage" class="message"></div>
         <button class="btn btn-green" type="submit">Sign in</button>
-        <div class="auth-switch">Don't have an account? <button type="button" onclick="navigate('register')">Create one</button></div>
-        <div class="notice">Demo account only. Do not reuse a real password. This is not secure authentication.</div>
+        <div class="auth-switch">No account? <button type="button" onclick="navigate('register')">Create one</button></div>
+        <div class="notice">Demo only. Do not reuse a real password.</div>
       </form>
     </div>
   </section>
@@ -441,13 +495,13 @@ tr:last-child td{border-bottom:0}
         <div class="eyebrow">JOIN LITTX</div>
         <h1>CREATE ACCOUNT.</h1>
         <p>Create a local demonstration account.</p>
-        <div class="field"><label>Username</label><input id="registerName" type="text" placeholder="Your username" minlength="3" maxlength="24" required></div>
-        <div class="field"><label>Email</label><input id="registerEmail" type="email" placeholder="you@example.com" required></div>
-        <div class="field"><label>Password</label><input id="registerPassword" type="password" placeholder="Create a password" minlength="6" required></div>
+        <div class="field"><label>Username</label><input id="registerName" required minlength="3" maxlength="24" placeholder="Your username"></div>
+        <div class="field"><label>Email</label><input id="registerEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input id="registerPassword" type="password" required minlength="6" placeholder="Create a password"></div>
         <div id="registerMessage" class="message"></div>
         <button class="btn btn-green" type="submit">Create account</button>
-        <div class="auth-switch">Already have an account? <button type="button" onclick="navigate('login')">Sign in</button></div>
-        <div class="notice">Demo only. Account data is stored in this browser. Do not use a password you use elsewhere.</div>
+        <div class="auth-switch">Already registered? <button type="button" onclick="navigate('login')">Sign in</button></div>
+        <div class="notice">Demo only. Account data is stored in this browser. Never use a reused password.</div>
       </form>
     </div>
   </section>
@@ -459,29 +513,21 @@ tr:last-child td{border-bottom:0}
     <div class="container">
       <div class="eyebrow">Personal account</div>
       <h1 class="title">DASHBOARD.</h1>
-      <p class="subtitle">Manage your demonstration account and membership.</p>
+      <p class="subtitle">Your LITTX account overview.</p>
 
       <div class="dash-grid">
-        <div class="dash-card">
-          <h3>USERNAME</h3>
-          <div class="dash-value" id="dashName">Player</div>
-          <p id="dashEmail">email@example.com</p>
-        </div>
-        <div class="dash-card">
-          <h3>MEMBERSHIP</h3>
-          <div class="dash-value" id="dashPlan">LITTX FREE</div>
-          <p id="dashExpiry">Free forever</p>
-        </div>
-        <div class="dash-card">
-          <h3>ACCOUNT STATUS</h3>
-          <div class="dash-value">ACTIVE</div>
-          <p>Local demonstration account</p>
-        </div>
-        <div class="dash-card">
-          <h3>CLIENT VERSION</h3>
-          <div class="dash-value">1.8.9</div>
-          <p>Check Downloads for the client file.</p>
-        </div>
+        <div class="dash-card"><h3>USERNAME</h3><div class="dash-value" id="dashName">Player</div><p id="dashEmail"></p></div>
+        <div class="dash-card"><h3>MEMBERSHIP</h3><div class="dash-value" id="dashPlan">LITTX FREE</div><p id="dashExpiry">No expiry</p></div>
+        <div class="dash-card"><h3>ACCOUNT STATUS</h3><div class="dash-value">ACTIVE</div><p>Local demonstration account</p></div>
+        <div class="dash-card"><h3>CLIENT VERSION</h3><div class="dash-value">3.0</div><p>Minecraft 1.8.9</p></div>
+      </div>
+
+      <div class="admin-box">
+        <h2>REDEEM MEMBERSHIP CODE</h2>
+        <p class="subtitle" style="margin:0 0 15px">Enter a code provided by the LITTX administrator.</p>
+        <div class="field"><label>Membership code</label><input id="redeemInput" placeholder="LITTX-XXXX-XXXX-XXXX"></div>
+        <button class="btn btn-green" onclick="redeemCode()">Redeem code</button>
+        <div id="redeemMessage" class="message"></div>
       </div>
 
       <div class="dash-actions">
@@ -489,8 +535,72 @@ tr:last-child td{border-bottom:0}
         <button class="btn btn-dark" onclick="navigate('plans')">Explore memberships</button>
         <button class="btn btn-dark" onclick="logout()">Sign out</button>
       </div>
+    </div>
+  </section>
+</main>
 
-      <div class="notice">This dashboard is a local demo. Membership selections are not verified purchases and do not grant protected access to client files.</div>
+<!-- ADMIN PANEL -->
+<main id="admin" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">Restricted demonstration area</div>
+      <h1 class="title">ADMIN PANEL.</h1>
+      <p class="subtitle">Create and manage LITTX membership codes.</p>
+
+      <div class="admin-box">
+        <h2>CREATE MEMBERSHIP CODE</h2>
+        <div class="admin-form">
+          <div class="field">
+            <label>Membership plan</label>
+            <select id="codePlan">
+              <option value="LITTX+">LITTX+</option>
+              <option value="LITTX ULTIMATE">LITTX ULTIMATE</option>
+              <option value="LITTX SUPPORTER">LITTX SUPPORTER</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Membership duration</label>
+            <select id="codeDuration">
+              <option value="30d">30 days</option>
+              <option value="lifetime">Lifetime</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Maximum uses</label>
+            <input id="codeUses" type="number" min="1" max="10000" value="1">
+          </div>
+          <div class="field">
+            <label>Code expiration date</label>
+            <input id="codeExpiry" type="date">
+          </div>
+          <div class="field full">
+            <label>Internal note (optional)</label>
+            <input id="codeNote" maxlength="80" placeholder="Example: Giveaway November">
+          </div>
+          <div class="full">
+            <button class="btn btn-green" onclick="createCode()">＋ Generate code</button>
+          </div>
+        </div>
+        <div class="notice">
+          The code expiration date controls when the code can be redeemed.
+          Membership duration controls how long the user's plan lasts after redemption.
+          Leave the expiration date empty for a code with no expiry.
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <h2>GENERATED CODES</h2>
+        <p class="subtitle" style="margin:0">Manage your generated membership codes.</p>
+        <div id="adminCodeList" class="code-list"></div>
+      </div>
+
+      <div class="admin-box">
+        <h2>ADMIN INFORMATION</h2>
+        <p class="subtitle" style="margin:0">
+          Signed in as <b>daxtiojunior2023@gmail.com</b>.
+          This is a browser-only demonstration panel. The email check is not secure identity verification.
+        </p>
+      </div>
     </div>
   </section>
 </main>
@@ -502,55 +612,13 @@ tr:last-child td{border-bottom:0}
       <div class="eyebrow">Help center</div>
       <h1 class="title">FREQUENTLY ASKED.</h1>
       <div class="faq">
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">What is LITTX? <span>+</span></button>
-          <div class="faq-answer">LITTX is a Minecraft client project. Check the official release information for supported versions and features.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Which Minecraft version is supported? <span>+</span></button>
-          <div class="faq-answer">This website currently advertises Minecraft 1.8.9. Check the client release for exact compatibility.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Are payments enabled? <span>+</span></button>
-          <div class="faq-answer">No. Membership selection is currently a demonstration. No payment is taken.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Are accounts secure? <span>+</span></button>
-          <div class="faq-answer">No. This version uses browser-local demonstration accounts. Never enter a real password.</div>
-        </div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">What is LITTX? <span>+</span></button><div class="faq-answer">LITTX is a Minecraft client project. Check the official release for supported versions and features.</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Are payments enabled? <span>+</span></button><div class="faq-answer">No. Membership selection is currently a demonstration. No payment is taken.</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">How do I redeem a code? <span>+</span></button><div class="faq-answer">Sign in, open your dashboard, enter your membership code and select Redeem.</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Are accounts secure? <span>+</span></button><div class="faq-answer">No. This version uses browser-local demonstration accounts and codes. It is not secure authentication.</div></div>
       </div>
     </div>
   </section>
-</main>
-
-<!-- TERMS -->
-<main id="terms" class="page">
-  <section class="section"><div class="container">
-    <div class="eyebrow">Information</div>
-    <h1 class="title">TERMS OF USE.</h1>
-    <p class="subtitle">Starter terms page. Replace this with terms appropriate for your actual service before launch.</p>
-    <div class="card" style="margin-top:30px">
-      <h3>Website use</h3><p>Use this website lawfully and do not attempt to disrupt its operation.</p><br>
-      <h3>Memberships</h3><p>Membership options displayed on this demo are not purchasable. No payment or paid access is provided.</p><br>
-      <h3>Updates</h3><p>Features and availability may change as the project develops.</p><br>
-      <h3>Contact</h3><p>Add your official support contact details here.</p>
-    </div>
-  </div></section>
-</main>
-
-<!-- PRIVACY -->
-<main id="privacy" class="page">
-  <section class="section"><div class="container">
-    <div class="eyebrow">Information</div>
-    <h1 class="title">PRIVACY POLICY.</h1>
-    <p class="subtitle">Starter privacy information for this demonstration website.</p>
-    <div class="card" style="margin-top:30px">
-      <h3>Local account data</h3><p>Demo account information is stored in the browser's local storage on the device. It is not sent to a server by this website.</p><br>
-      <h3>Passwords</h3><p>Do not use a real or reused password. This demonstration does not provide secure password handling.</p><br>
-      <h3>Future services</h3><p>If real accounts, analytics or payments are added, update this policy to explain the data collected and how it is used.</p><br>
-      <h3>Contact</h3><p>Add your official privacy contact details here.</p>
-    </div>
-  </div></section>
 </main>
 
 <footer class="footer">
@@ -559,8 +627,7 @@ tr:last-child td{border-bottom:0}
     <p>© <span id="year"></span> LITTX. All rights reserved.</p>
     <div class="footer-links">
       <a href="#faq" onclick="navigate('faq')">FAQ</a>
-      <a href="#terms" onclick="navigate('terms')">Terms</a>
-      <a href="#privacy" onclick="navigate('privacy')">Privacy</a>
+      <a href="#plans" onclick="navigate('plans')">Plans</a>
       <a href="#login" onclick="navigate('login')">Account</a>
     </div>
   </div>
@@ -568,32 +635,41 @@ tr:last-child td{border-bottom:0}
 
 <div class="toast" id="toast"></div>
 
-<div class="modal-bg" id="planModal" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="eyebrow">Membership selection</div>
-    <h2 id="modalTitle">LITTX+</h2>
-    <p id="modalDescription">This is a demonstration selection.</p>
-    <div class="notice">Payments are currently disabled. This selection only changes your local demo dashboard.</div>
-    <div class="modal-actions">
-      <button class="btn btn-green" onclick="confirmPlan()">Confirm demo selection</button>
-      <button class="btn btn-dark" onclick="closeModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <script>
+const ADMIN_EMAIL = "daxtiojunior2023@gmail.com";
+
 const PLAN_PRICES = {
-  "LITTX+": { monthly:5, forever:15 },
-  "LITTX ULTIMATE": { monthly:15, forever:50 },
-  "LITTX SUPPORTER": { monthly:75, forever:250 }
+  "LITTX+": {monthly:5,forever:15},
+  "LITTX ULTIMATE": {monthly:15,forever:50},
+  "LITTX SUPPORTER": {monthly:75,forever:250}
 };
 
 let billing = "monthly";
-let pendingPlan = null;
 let currentUser = null;
 let toastTimer = null;
 
 const $ = id => document.getElementById(id);
+
+function getData(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function setData(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getAccounts() {
+  return getData("littx_v3_accounts", []);
+}
+
+function getCodes() {
+  return getData("littx_v3_codes", []);
+}
 
 function toast(message) {
   const element = $("toast");
@@ -604,12 +680,16 @@ function toast(message) {
 }
 
 function navigate(page) {
-  const target = $(page);
-  if (!target) page = "home";
+  if (!$(page)) page = "home";
 
   if (page === "dashboard" && !currentUser) page = "login";
 
-  document.querySelectorAll(".page").forEach(item => item.classList.remove("active"));
+  if (page === "admin" && !isAdmin()) {
+    toast("Administrator access required.");
+    page = currentUser ? "dashboard" : "login";
+  }
+
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   $(page).classList.add("active");
 
   document.querySelectorAll("[data-nav]").forEach(link => {
@@ -619,7 +699,11 @@ function navigate(page) {
   $("navLinks").classList.remove("show");
   history.replaceState(null, "", "#" + page);
   window.scrollTo({top:0,behavior:"smooth"});
+
   updateAccountButton();
+
+  if (page === "dashboard") updateDashboard();
+  if (page === "admin") renderAdminCodes();
 }
 
 function toggleMenu() {
@@ -628,10 +712,11 @@ function toggleMenu() {
 
 function updateAccountButton() {
   const button = $("accountButton");
+
   if (currentUser) {
-    button.textContent = "Dashboard";
-    button.href = "#dashboard";
-    button.onclick = () => navigate("dashboard");
+    button.textContent = isAdmin() ? "Admin" : "Dashboard";
+    button.href = isAdmin() ? "#admin" : "#dashboard";
+    button.onclick = () => navigate(isAdmin() ? "admin" : "dashboard");
   } else {
     button.textContent = "Account";
     button.href = "#login";
@@ -639,18 +724,24 @@ function updateAccountButton() {
   }
 }
 
+function isAdmin() {
+  return !!currentUser &&
+    currentUser.email.toLowerCase() === ADMIN_EMAIL;
+}
+
 function setBilling(type) {
   billing = type;
-  $("monthlyButton").classList.toggle("selected", type === "monthly");
-  $("foreverButton").classList.toggle("selected", type === "forever");
 
-  const mapping = [
-    ["LITTX+", "pricePlus", "periodPlus", "notePlus"],
-    ["LITTX ULTIMATE", "priceUltimate", "periodUltimate", "noteUltimate"],
-    ["LITTX SUPPORTER", "priceSupporter", "periodSupporter", "noteSupporter"]
+  $("monthlyButton").classList.toggle("selected",type === "monthly");
+  $("foreverButton").classList.toggle("selected",type === "forever");
+
+  const entries = [
+    ["LITTX+","pricePlus","periodPlus","notePlus"],
+    ["LITTX ULTIMATE","priceUltimate","periodUltimate","noteUltimate"],
+    ["LITTX SUPPORTER","priceSupporter","periodSupporter","noteSupporter"]
   ];
 
-  mapping.forEach(([name, priceId, periodId, noteId]) => {
+  entries.forEach(([name,priceId,periodId,noteId]) => {
     const price = PLAN_PRICES[name][type];
     $(priceId).textContent = "$" + price;
     $(periodId).textContent = type === "monthly" ? "/ 30 days" : "/ lifetime";
@@ -662,61 +753,37 @@ function setBilling(type) {
 
 function selectPlan(plan) {
   if (!currentUser) {
-    toast("Create or sign in to a demo account first.");
+    toast("Create an account or sign in first.");
     navigate("register");
     return;
   }
 
-  pendingPlan = plan;
-  const price = plan === "LITTX FREE" ? 0 : PLAN_PRICES[plan][billing];
+  if (plan === "LITTX FREE") {
+    currentUser.plan = "LITTX FREE";
+    currentUser.planExpiry = null;
+    saveCurrentUser();
+    updateDashboard();
+    toast("Free demo membership selected.");
+    navigate("dashboard");
+    return;
+  }
 
-  $("modalTitle").textContent = plan;
-  $("modalDescription").textContent = plan === "LITTX FREE"
-    ? "Free membership — no payment required."
-    : "$" + price + (billing === "monthly" ? " / 30 days" : " / lifetime") + ". No payment will be taken.";
-
-  $("planModal").classList.add("show");
-}
-
-function closeModal() {
-  $("planModal").classList.remove("show");
-}
-
-function closeModalOutside(event) {
-  if (event.target === $("planModal")) closeModal();
-}
-
-function confirmPlan() {
-  if (!currentUser || !pendingPlan) return;
-
-  currentUser.plan = pendingPlan;
-  currentUser.billing = pendingPlan === "LITTX FREE" ? "forever" : billing;
-  currentUser.expiry = pendingPlan === "LITTX FREE" || billing === "forever"
-    ? "No expiry"
-    : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString();
-
-  saveCurrentUser();
-  updateDashboard();
-  closeModal();
-  toast("Demo membership updated. No payment was made.");
+  toast("Payments are disabled. Ask the administrator for a membership code.");
   navigate("dashboard");
 }
 
 function saveCurrentUser() {
   if (!currentUser) return;
-  localStorage.setItem("littx_demo_user", JSON.stringify(currentUser));
-}
 
-function loadUsers() {
-  try {
-    return JSON.parse(localStorage.getItem("littx_demo_accounts") || "[]");
-  } catch {
-    return [];
+  const accounts = getAccounts();
+  const index = accounts.findIndex(a => a.email === currentUser.email);
+
+  if (index !== -1) {
+    accounts[index] = {...accounts[index],...currentUser};
+    setData("littx_v3_accounts",accounts);
   }
-}
 
-function saveUsers(users) {
-  localStorage.setItem("littx_demo_accounts", JSON.stringify(users));
+  setData("littx_v3_session",currentUser);
 }
 
 function register(event) {
@@ -725,12 +792,10 @@ function register(event) {
   const name = $("registerName").value.trim();
   const email = $("registerEmail").value.trim().toLowerCase();
   const password = $("registerPassword").value;
+  const accounts = getAccounts();
 
-  const users = loadUsers();
-  const message = $("registerMessage");
-
-  if (users.some(user => user.email === email)) {
-    message.textContent = "An account with this email already exists.";
+  if (accounts.some(a => a.email === email)) {
+    $("registerMessage").textContent = "An account with this email already exists.";
     return;
   }
 
@@ -739,20 +804,18 @@ function register(event) {
     email,
     password,
     plan:"LITTX FREE",
-    billing:"forever",
-    expiry:"No expiry"
+    planExpiry:null
   };
 
-  users.push(user);
-  saveUsers(users);
+  accounts.push(user);
+  setData("littx_v3_accounts",accounts);
 
   currentUser = {...user};
-  saveCurrentUser();
-  updateDashboard();
-  updateAccountButton();
+  setData("littx_v3_session",currentUser);
+
   event.target.reset();
   toast("Demo account created.");
-  navigate("dashboard");
+  navigate(isAdmin() ? "admin" : "dashboard");
 }
 
 function login(event) {
@@ -760,57 +823,252 @@ function login(event) {
 
   const email = $("loginEmail").value.trim().toLowerCase();
   const password = $("loginPassword").value;
-  const message = $("loginMessage");
-
-  const user = loadUsers().find(
-    item => item.email === email && item.password === password
+  const account = getAccounts().find(a =>
+    a.email === email && a.password === password
   );
 
-  if (!user) {
-    message.textContent = "Incorrect email or password.";
+  if (!account) {
+    $("loginMessage").textContent = "Incorrect email or password.";
     return;
   }
 
-  currentUser = {...user};
-  saveCurrentUser();
-  updateDashboard();
-  updateAccountButton();
+  currentUser = {...account};
+  setData("littx_v3_session",currentUser);
   event.target.reset();
+
   toast("Welcome back, " + currentUser.name + ".");
-  navigate("dashboard");
+  navigate(isAdmin() ? "admin" : "dashboard");
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem("littx_v3_session");
+  updateAccountButton();
+  toast("Signed out.");
+  navigate("home");
 }
 
 function updateDashboard() {
   if (!currentUser) return;
 
+  if (currentUser.planExpiry && Date.now() > currentUser.planExpiry) {
+    currentUser.plan = "LITTX FREE";
+    currentUser.planExpiry = null;
+    saveCurrentUser();
+    toast("Your membership expired. Free membership restored.");
+  }
+
   $("dashName").textContent = currentUser.name;
   $("dashEmail").textContent = currentUser.email;
   $("dashPlan").textContent = currentUser.plan || "LITTX FREE";
-  $("dashExpiry").textContent = currentUser.expiry || "No expiry";
+
+  if (currentUser.planExpiry) {
+    $("dashExpiry").textContent =
+      "Expires: " + new Date(currentUser.planExpiry).toLocaleString();
+  } else {
+    $("dashExpiry").textContent = "Lifetime / Free membership";
+  }
 }
 
-function logout() {
-  currentUser = null;
-  localStorage.removeItem("littx_demo_user");
-  updateAccountButton();
-  toast("You have signed out.");
-  navigate("home");
+function generateRandomCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const random = new Uint8Array(12);
+  crypto.getRandomValues(random);
+
+  let value = "";
+  for (let i=0;i<random.length;i++) {
+    value += chars[random[i] % chars.length];
+  }
+
+  return "LITTX-" +
+    value.slice(0,4) + "-" +
+    value.slice(4,8) + "-" +
+    value.slice(8,12);
+}
+
+function createCode() {
+  if (!isAdmin()) {
+    toast("Administrator access required.");
+    return;
+  }
+
+  const plan = $("codePlan").value;
+  const duration = $("codeDuration").value;
+  const uses = Number($("codeUses").value);
+  const expiryInput = $("codeExpiry").value;
+  const note = $("codeNote").value.trim();
+
+  if (!Number.isInteger(uses) || uses < 1 || uses > 10000) {
+    toast("Enter a valid use limit between 1 and 10000.");
+    return;
+  }
+
+  let expiresAt = null;
+
+  if (expiryInput) {
+    const date = new Date(expiryInput + "T23:59:59");
+    if (Number.isNaN(date.getTime()) || date.getTime() <= Date.now()) {
+      toast("The code expiration date must be in the future.");
+      return;
+    }
+    expiresAt = date.getTime();
+  }
+
+  const codes = getCodes();
+  let code = generateRandomCode();
+
+  while (codes.some(item => item.code === code)) {
+    code = generateRandomCode();
+  }
+
+  codes.unshift({
+    id: crypto.randomUUID(),
+    code,
+    plan,
+    duration,
+    maxUses:uses,
+    used:0,
+    expiresAt,
+    note,
+    createdAt:Date.now()
+  });
+
+  setData("littx_v3_codes",codes);
+  $("codeNote").value = "";
+  $("codeUses").value = "1";
+  renderAdminCodes();
+  toast("New membership code generated.");
+}
+
+function redeemCode() {
+  if (!currentUser) {
+    navigate("login");
+    return;
+  }
+
+  const input = $("redeemInput").value.trim().toUpperCase();
+  const message = $("redeemMessage");
+
+  if (!input) {
+    message.textContent = "Enter a membership code.";
+    return;
+  }
+
+  const codes = getCodes();
+  const code = codes.find(item => item.code === input);
+
+  if (!code) {
+    message.textContent = "This membership code does not exist.";
+    return;
+  }
+
+  if (code.expiresAt && Date.now() > code.expiresAt) {
+    message.textContent = "This membership code has expired.";
+    return;
+  }
+
+  if (code.used >= code.maxUses) {
+    message.textContent = "This membership code has reached its use limit.";
+    return;
+  }
+
+  if (code.duration === "30d") {
+    currentUser.planExpiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+  } else {
+    currentUser.planExpiry = null;
+  }
+
+  currentUser.plan = code.plan;
+  code.used += 1;
+
+  setData("littx_v3_codes",codes);
+  saveCurrentUser();
+
+  $("redeemInput").value = "";
+  message.textContent = "Success! Your " + code.plan + " membership is now active.";
+  message.classList.add("success");
+
+  updateDashboard();
+  toast("Membership code redeemed successfully.");
+}
+
+function renderAdminCodes() {
+  if (!isAdmin()) return;
+
+  const container = $("adminCodeList");
+  const codes = getCodes();
+
+  if (!codes.length) {
+    container.innerHTML = '<div class="empty">No membership codes have been generated yet.</div>';
+    return;
+  }
+
+  container.innerHTML = "";
+
+  codes.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "code-row";
+
+    const code = document.createElement("div");
+    code.className = "code-text";
+    code.textContent = item.code;
+
+    const plan = document.createElement("div");
+    plan.className = "code-info";
+    plan.textContent = item.plan + " · " + (item.duration === "30d" ? "30 days" : "Lifetime");
+
+    const usage = document.createElement("div");
+    usage.className = "code-info";
+    usage.textContent = "Uses: " + item.used + " / " + item.maxUses +
+      "\nExpires: " + (item.expiresAt ? new Date(item.expiresAt).toLocaleDateString() : "Never");
+
+    const actions = document.createElement("div");
+    actions.className = "code-actions";
+
+    const copy = document.createElement("button");
+    copy.className = "btn btn-dark";
+    copy.textContent = "Copy";
+    copy.onclick = () => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(item.code).then(
+          () => toast("Code copied."),
+          () => toast("Copy failed. Select the code and copy it manually.")
+        );
+      } else {
+        toast("Select the code and copy it manually.");
+      }
+    };
+
+    const remove = document.createElement("button");
+    remove.className = "btn btn-red";
+    remove.textContent = "Delete";
+    remove.onclick = () => deleteCode(item.id);
+
+    actions.append(copy,remove);
+    row.append(code,plan,usage,actions);
+    container.appendChild(row);
+  });
+}
+
+function deleteCode(id) {
+  if (!isAdmin()) return;
+
+  const updated = getCodes().filter(item => item.id !== id);
+  setData("littx_v3_codes",updated);
+  renderAdminCodes();
+  toast("Code deleted.");
 }
 
 function toggleFaq(button) {
   button.parentElement.classList.toggle("open");
-  const symbol = button.querySelector("span");
-  symbol.textContent = button.parentElement.classList.contains("open") ? "−" : "+";
+  button.querySelector("span").textContent =
+    button.parentElement.classList.contains("open") ? "−" : "+";
 }
 
 function initialize() {
   $("year").textContent = new Date().getFullYear();
 
-  try {
-    currentUser = JSON.parse(localStorage.getItem("littx_demo_user") || "null");
-  } catch {
-    currentUser = null;
-  }
+  currentUser = getData("littx_v3_session",null);
 
   if (currentUser) {
     updateDashboard();
@@ -818,12 +1076,11 @@ function initialize() {
 
   updateAccountButton();
 
-  const page = location.hash.replace("#", "");
-  navigate($(page) ? page : "home");
+  const requested = location.hash.replace("#","");
+  navigate($(requested) ? requested : "home");
 }
 
-window.addEventListener("DOMContentLoaded", initialize);
+window.addEventListener("DOMContentLoaded",initialize);
 </script>
-
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080a0b">
 <title>LITTX — Minecraft Client</title>
-<meta name="description" content="LITTX — A cinematic Minecraft 1.8.9 client experience.">
+<meta name="description" content="Discover LITTX, a modern Minecraft 1.8.9 client experience.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,255 +14,214 @@
 <style>
 :root {
   --bg:#080a0b;
-  --panel:#101415;
-  --panel2:#151b1b;
-  --line:rgba(255,255,255,.09);
-  --text:#f2f5f0;
-  --muted:#929b95;
+  --panel:#101514;
+  --panel2:#151c19;
+  --line:rgba(255,255,255,.085);
+  --text:#f1f5ef;
+  --muted:#929d95;
   --green:#b7f34a;
-  --green2:#8fc72c;
-  --red:#ff6666;
-  --radius:17px;
+  --green2:#d0ff79;
+  --red:#ff7777;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  min-height:100vh;overflow-x:hidden;
-}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
 body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-  background:
-    radial-gradient(ellipse at 50% -20%,rgba(183,243,74,.12),transparent 48%),
-    radial-gradient(ellipse at 90% 60%,rgba(80,130,40,.06),transparent 40%);
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% -20%,rgba(183,243,74,.12),transparent 50%);
 }
 button,input{font:inherit}
-button,a{ -webkit-tap-highlight-color:transparent }
-a{color:inherit;text-decoration:none}
+button,a{-webkit-tap-highlight-color:transparent}
+a{text-decoration:none;color:inherit}
 button{cursor:pointer}
 ::selection{background:var(--green);color:#080a0b}
 
 .nav{
-  height:76px;position:sticky;top:0;z-index:50;
+  height:75px;position:sticky;top:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 7%;background:rgba(8,10,11,.86);
+  padding:0 7%;background:rgba(8,10,11,.88);
   border-bottom:1px solid var(--line);backdrop-filter:blur(18px);
 }
-.logo{
-  font-family:'Barlow Condensed',sans-serif;font-size:34px;
-  font-weight:900;letter-spacing:2px;
-}
+.logo{font-family:'Barlow Condensed';font-size:34px;font-weight:900;letter-spacing:2px}
 .logo span{color:var(--green)}
-.nav-links{display:flex;align-items:center;gap:29px}
-.nav-links a{font-size:12px;font-weight:700;color:#aab2ac;transition:.2s}
+.nav-links{display:flex;align-items:center;gap:27px}
+.nav-links a{font-size:11px;font-weight:800;color:#aab3ac;transition:.2s}
 .nav-links a:hover,.nav-links a.active{color:var(--green)}
-.nav-actions{display:flex;align-items:center;gap:12px}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.menu-btn{display:none;background:none;border:0;color:white;font-size:25px}
+
 .btn{
-  border:1px solid var(--line);border-radius:8px;
-  padding:12px 19px;font-size:11px;font-weight:800;
-  letter-spacing:.7px;text-transform:uppercase;
-  transition:.2s;display:inline-flex;align-items:center;
-  justify-content:center;gap:8px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid var(--line);border-radius:7px;padding:12px 18px;
+  font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;
+  transition:.2s;
 }
 .btn:hover{transform:translateY(-2px)}
-.btn-green{background:var(--green);color:#10140a;border-color:var(--green)}
-.btn-green:hover{background:#cbff70}
-.btn-dark{background:#141a18;color:white}
+.btn-green{background:var(--green);border-color:var(--green);color:#10140a}
+.btn-green:hover{background:var(--green2)}
+.btn-dark{background:#151b18;color:white}
 .btn-dark:hover{border-color:var(--green);color:var(--green)}
-.btn-small{padding:9px 14px;font-size:10px}
-.menu-btn{display:none;background:none;border:0;color:white;font-size:24px}
+.btn-small{padding:9px 14px}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-.page{display:none;animation:appear .35s ease}
+.page{display:none;animation:fade .3s ease}
 .page.active{display:block}
-@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .container{width:min(1160px,88%);margin:auto}
-.eyebrow{
-  color:var(--green);font-size:10px;font-weight:800;
-  letter-spacing:3px;text-transform:uppercase;
-}
-.section{padding:95px 0}
-.section-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:clamp(38px,6vw,65px);line-height:.98;
-  text-transform:uppercase;font-weight:900;letter-spacing:.5px;
-}
-.section-sub{color:var(--muted);font-size:14px;line-height:1.8;margin-top:14px;max-width:570px}
-.center{text-align:center}
-.center .section-sub{margin-left:auto;margin-right:auto}
+.section{padding:90px 0}
+.eyebrow{font-size:10px;color:var(--green);font-weight:900;letter-spacing:3px;text-transform:uppercase}
+.title{font-family:'Barlow Condensed';font-size:clamp(42px,7vw,70px);font-weight:900;line-height:.95;text-transform:uppercase}
+.subtitle{font-size:13px;line-height:1.9;color:var(--muted);max-width:580px;margin-top:14px}
 
-.hero{
-  min-height:680px;display:flex;align-items:center;
-  position:relative;overflow:hidden;padding:100px 0;
-}
+.hero{min-height:670px;display:flex;align-items:center;position:relative;overflow:hidden;padding:95px 0}
 .hero:after{
-  content:"L";position:absolute;right:8%;top:50%;
-  transform:translateY(-48%);font-family:'Barlow Condensed';
-  font-size:clamp(350px,55vw,700px);font-weight:900;
-  color:rgba(183,243,74,.035);line-height:1;pointer-events:none;
+  content:"L";position:absolute;right:8%;top:50%;transform:translateY(-50%);
+  font-family:'Barlow Condensed';font-weight:900;font-size:650px;
+  color:rgba(183,243,74,.035);pointer-events:none;line-height:1;
 }
 .hero-content{position:relative;z-index:2;max-width:720px}
-.hero h1{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:clamp(75px,13vw,145px);line-height:.78;
-  letter-spacing:-2px;font-weight:900;margin:25px 0;
-}
+.hero h1{font-family:'Barlow Condensed';font-size:clamp(78px,13vw,145px);font-weight:900;line-height:.78;letter-spacing:-2px;margin:27px 0}
 .hero h1 span{color:var(--green)}
-.hero p{color:#a8b0aa;font-size:15px;line-height:1.9;max-width:510px}
-.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
-.hero-meta{display:flex;gap:28px;margin-top:55px;flex-wrap:wrap}
-.meta-item strong{display:block;font-family:'Barlow Condensed';font-size:25px}
-.meta-item span{color:var(--muted);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+.hero p{max-width:520px;color:#a8b1aa;font-size:14px;line-height:1.9}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hero-meta{display:flex;gap:30px;flex-wrap:wrap;margin-top:55px}
+.meta strong{display:block;font-family:'Barlow Condensed';font-size:26px}
+.meta span{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 
-.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 0}
+.stats{padding:23px 0;border-block:1px solid var(--line)}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center}
-.stat strong{font-family:'Barlow Condensed';font-size:28px;color:var(--green)}
-.stat span{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.stat strong{font-family:'Barlow Condensed';font-size:25px;color:var(--green)}
+.stat span{display:block;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:45px}
-.feature{
-  padding:27px;background:linear-gradient(145deg,#141a18,#0e1212);
-  border:1px solid var(--line);border-radius:var(--radius);
-  transition:.25s;
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
+.card{
+  padding:26px;background:linear-gradient(145deg,#151b19,#0e1211);
+  border:1px solid var(--line);border-radius:14px;transition:.25s;
 }
-.feature:hover{transform:translateY(-5px);border-color:rgba(183,243,74,.4)}
-.feature-icon{
-  width:42px;height:42px;border-radius:11px;
-  display:grid;place-items:center;background:rgba(183,243,74,.1);
-  color:var(--green);font-size:20px;margin-bottom:22px;
+.card:hover{transform:translateY(-4px);border-color:rgba(183,243,74,.35)}
+.card-icon{
+  width:42px;height:42px;display:grid;place-items:center;
+  background:rgba(183,243,74,.1);color:var(--green);
+  border-radius:10px;font-size:20px;margin-bottom:20px;
 }
-.feature h3{font-size:15px;margin-bottom:9px}
-.feature p{font-size:12px;color:var(--muted);line-height:1.8}
+.card h3{font-size:14px;margin-bottom:9px}
+.card p{font-size:11px;color:var(--muted);line-height:1.9}
 
-.plans-head{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.billing{
-  display:flex;gap:5px;background:#121817;padding:5px;
-  border:1px solid var(--line);border-radius:9px;
-}
-.billing button{
-  background:transparent;border:0;color:var(--muted);
-  padding:10px 15px;border-radius:6px;font-size:10px;font-weight:800;
-}
+.plans-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.billing{display:flex;gap:5px;padding:5px;border:1px solid var(--line);background:#111715;border-radius:8px}
+.billing button{border:0;background:transparent;color:var(--muted);padding:10px 14px;border-radius:5px;font-size:9px;font-weight:900}
 .billing button.selected{background:var(--green);color:#10140a}
-.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:42px}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:38px}
 .plan{
-  background:linear-gradient(155deg,#151b19,#0d1110);
-  border:1px solid var(--line);border-radius:var(--radius);
-  padding:25px 21px;position:relative;display:flex;flex-direction:column;
-  min-height:390px;
+  position:relative;display:flex;flex-direction:column;
+  min-height:390px;padding:24px 20px;border:1px solid var(--line);
+  border-radius:14px;background:linear-gradient(150deg,#151b19,#0c100f);
 }
 .plan.featured{border-color:rgba(183,243,74,.65);box-shadow:0 0 35px rgba(183,243,74,.07)}
-.plan-tag{
-  position:absolute;top:14px;right:14px;font-size:8px;
-  color:#10140a;background:var(--green);padding:5px 8px;
-  border-radius:4px;font-weight:900;letter-spacing:1px;
-}
-.plan-name{font-family:'Barlow Condensed';font-size:27px;font-weight:800;margin-top:10px}
-.plan-description{font-size:11px;color:var(--muted);margin-top:7px;min-height:34px}
-.price{margin:26px 0 5px;display:flex;align-items:baseline;gap:5px}
-.price strong{font-family:'Barlow Condensed';font-size:49px;line-height:1}
-.price span{font-size:11px;color:var(--muted)}
-.plan-note{font-size:10px;color:var(--muted);min-height:18px}
-.plan ul{list-style:none;margin:24px 0;flex:1}
-.plan li{font-size:11px;color:#c2c9c3;margin:12px 0}
-.plan li:before{content:"✓";color:var(--green);margin-right:9px;font-weight:900}
+.tag{position:absolute;top:14px;right:13px;background:var(--green);color:#111;padding:5px 8px;border-radius:4px;font-size:8px;font-weight:900}
+.plan h3{font-family:'Barlow Condensed';font-size:27px;margin-top:10px}
+.plan-desc{font-size:10px;color:var(--muted);margin-top:5px;min-height:30px}
+.price{display:flex;align-items:baseline;gap:5px;margin:25px 0 4px}
+.price strong{font-family:'Barlow Condensed';font-size:48px;line-height:1}
+.price span,.plan-note{font-size:10px;color:var(--muted)}
+.plan ul{list-style:none;margin:23px 0;flex:1}
+.plan li{font-size:10px;color:#c4ccc5;margin:12px 0}
+.plan li:before{content:"✓";color:var(--green);margin-right:8px;font-weight:900}
 .plan .btn{width:100%}
 
-.table-wrap{overflow-x:auto;margin-top:40px;border:1px solid var(--line);border-radius:13px}
-.compare{width:100%;border-collapse:collapse;min-width:650px}
-.compare th,.compare td{padding:17px 20px;border-bottom:1px solid var(--line);text-align:center;font-size:11px}
-.compare th:first-child,.compare td:first-child{text-align:left;color:#c8d0c9}
-.compare th{color:var(--green);font-size:10px;letter-spacing:1px;text-transform:uppercase;background:#121817}
-.compare tr:last-child td{border-bottom:0}
+.table-wrap{overflow-x:auto;margin-top:35px;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:16px 18px;text-align:center;border-bottom:1px solid var(--line);font-size:10px}
+th{background:#121816;color:var(--green);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+td:first-child,th:first-child{text-align:left}
+td:first-child{color:#c7d0c8}
+tr:last-child td{border-bottom:0}
 .yes{color:var(--green);font-weight:900}
-.no{color:#59615b}
+.no{color:#566057}
 
 .cta{
-  padding:55px;border:1px solid rgba(183,243,74,.22);
-  border-radius:20px;background:linear-gradient(120deg,rgba(183,243,74,.09),rgba(183,243,74,.015));
-  display:flex;justify-content:space-between;align-items:center;gap:25px;flex-wrap:wrap;
+  display:flex;align-items:center;justify-content:space-between;gap:25px;flex-wrap:wrap;
+  padding:45px;border:1px solid rgba(183,243,74,.22);border-radius:17px;
+  background:linear-gradient(110deg,rgba(183,243,74,.09),rgba(183,243,74,.01));
 }
-.cta h2{font-family:'Barlow Condensed';font-size:43px;text-transform:uppercase}
-.cta p{font-size:12px;color:var(--muted);margin-top:8px}
+.cta h2{font-family:'Barlow Condensed';font-size:40px}
+.cta p{font-size:11px;color:var(--muted);margin-top:8px}
 
-.faq-list{max-width:780px;margin:40px auto 0}
+.faq{max-width:800px;margin:35px auto 0}
 .faq-item{border-bottom:1px solid var(--line)}
-.faq-question{
-  width:100%;padding:22px 0;background:none;border:0;color:white;
-  display:flex;justify-content:space-between;text-align:left;
-  font-size:13px;font-weight:700;
-}
-.faq-answer{display:none;color:var(--muted);font-size:12px;line-height:1.8;padding:0 25px 20px 0}
+.faq-question{width:100%;padding:20px 0;border:0;background:none;color:white;text-align:left;display:flex;justify-content:space-between;font-size:12px;font-weight:800}
+.faq-answer{display:none;color:var(--muted);font-size:11px;line-height:1.9;padding:0 25px 20px 0}
 .faq-item.open .faq-answer{display:block}
 .faq-item.open .faq-question span{color:var(--green)}
 
-.footer{border-top:1px solid var(--line);padding:35px 0;margin-top:50px}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.footer{margin-top:40px;border-top:1px solid var(--line);padding:32px 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .footer p,.footer a{font-size:10px;color:var(--muted)}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
 
-.inner-hero{padding:75px 0 35px}
+.inner-hero{padding:70px 0 20px}
 .inner-hero h1{font-family:'Barlow Condensed';font-size:75px;text-transform:uppercase}
-.inner-hero p{color:var(--muted);font-size:13px;margin-top:8px}
+.inner-hero p{color:var(--muted);font-size:12px;margin-top:8px}
 
-.auth-area{min-height:650px;display:grid;place-items:center;padding:60px 0}
-.auth-card{
-  width:min(440px,100%);padding:35px;
-  border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(145deg,#151b19,#0c1010);
-}
-.auth-card h1{font-family:'Barlow Condensed';font-size:43px;text-transform:uppercase}
-.auth-card>p{color:var(--muted);font-size:12px;margin:8px 0 25px}
-.field{margin:15px 0}
-.field label{display:block;color:#aab3ac;font-size:10px;font-weight:800;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
-.field input{
-  width:100%;background:#090d0c;border:1px solid var(--line);
-  padding:14px;color:white;border-radius:7px;outline:none;font-size:12px;
-}
+.auth-area{min-height:640px;display:grid;place-items:center;padding:55px 0}
+.auth-card{width:min(440px,100%);padding:32px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#151b19,#0c100f)}
+.auth-card h1{font-family:'Barlow Condensed';font-size:43px;margin-top:5px}
+.auth-card>p{font-size:11px;color:var(--muted);margin:7px 0 25px}
+.field{margin:14px 0}
+.field label{display:block;font-size:9px;color:#aab4ac;font-weight:900;letter-spacing:1px;margin-bottom:8px}
+.field input{width:100%;padding:13px;background:#090d0c;color:white;border:1px solid var(--line);border-radius:6px;outline:none;font-size:11px}
 .field input:focus{border-color:var(--green)}
-.auth-card .btn{width:100%;margin-top:10px}
-.auth-switch{text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
-.auth-switch button{background:none;border:0;color:var(--green);font-weight:800}
-.notice{padding:12px;border-radius:7px;background:rgba(183,243,74,.08);color:#c8e99c;font-size:11px;line-height:1.7;margin:15px 0}
-.error{background:rgba(255,102,102,.1);color:#ff9292}
-.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:30px}
-.dash-card{padding:25px;border:1px solid var(--line);background:var(--panel);border-radius:13px}
-.dash-card h3{font-size:14px;margin-bottom:12px}
-.dash-card p{font-size:12px;color:var(--muted);line-height:1.8}
+.auth-card>.btn{width:100%;margin-top:10px}
+.auth-switch{text-align:center;font-size:10px;color:var(--muted);margin-top:19px}
+.auth-switch button{background:none;border:0;color:var(--green);font-weight:900}
+.notice{margin-top:17px;padding:12px;border-radius:7px;background:rgba(183,243,74,.08);color:#c8e99c;font-size:10px;line-height:1.8}
+.message{font-size:11px;color:var(--red);margin:10px 0;line-height:1.7}
+.message.success{color:var(--green)}
+
+.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px}
+.dash-card{padding:24px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.dash-card h3{font-size:12px;margin-bottom:12px}
 .dash-value{font-family:'Barlow Condensed';font-size:34px;color:var(--green)}
-.download-card{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-top:15px}
-.download-card p{color:var(--muted);font-size:11px;margin-top:5px}
-.download-card h3{font-size:14px}
-.empty-state{padding:35px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:12px;margin-top:20px}
+.dash-card p{font-size:10px;color:var(--muted);line-height:1.8}
+.dash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:11px;margin-top:15px}
+.download-card h3{font-size:13px}
+.download-card p{font-size:10px;color:var(--muted);margin-top:5px}
+.empty{padding:28px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:11px;margin-top:18px}
+.toast{
+  position:fixed;bottom:22px;right:22px;z-index:200;
+  max-width:350px;padding:15px 19px;border-radius:9px;
+  background:#1b2419;border:1px solid rgba(183,243,74,.35);
+  color:#e5f6d3;font-size:11px;line-height:1.6;
+  opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:150;place-items:center;padding:20px}
+.modal-bg.show{display:grid}
+.modal{width:min(420px,100%);background:#111715;border:1px solid var(--line);border-radius:14px;padding:28px}
+.modal h2{font-family:'Barlow Condensed';font-size:34px}
+.modal p{font-size:11px;color:var(--muted);line-height:1.8;margin:12px 0}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 
 @media(max-width:900px){
-  .plans-grid{grid-template-columns:repeat(2,1fr)}
-  .features-grid{grid-template-columns:repeat(2,1fr)}
-  .nav{padding:0 5%}
-  .nav-links{gap:15px}
+  .plans{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:650px){
-  .nav{height:65px}
+  .nav{height:65px;padding:0 5%}
   .menu-btn{display:block}
-  .nav-links{
-    display:none;position:absolute;top:65px;left:0;right:0;
-    padding:22px;background:#0d1210;border-bottom:1px solid var(--line);
-    flex-direction:column;align-items:stretch;
-  }
+  .nav-links{display:none;position:absolute;top:65px;left:0;right:0;background:#0c110f;padding:20px;flex-direction:column;align-items:stretch;border-bottom:1px solid var(--line)}
   .nav-links.show{display:flex}
   .nav-links a{padding:9px}
-  .nav-actions .btn{padding:9px 11px}
-  .hero{min-height:570px;padding:70px 0}
-  .hero-meta{gap:18px}
-  .section{padding:70px 0}
-  .features-grid,.plans-grid,.dashboard-grid{grid-template-columns:1fr}
-  .plans-head{align-items:start}
+  .hero{min-height:570px;padding:65px 0}
+  .hero-meta{gap:20px}
+  .section{padding:65px 0}
+  .plans,.grid,.dash-grid{grid-template-columns:1fr}
   .plan{min-height:0}
-  .cta{padding:30px}
-  .stats-grid{grid-template-columns:1fr;gap:18px}
+  .stats-grid{grid-template-columns:1fr;gap:15px}
+  .cta{padding:28px}
   .download-card{align-items:flex-start;flex-direction:column}
-  .auth-card{padding:25px}
+  .auth-card{padding:24px}
 }
 </style>
 </head>
@@ -270,7 +229,7 @@ button{cursor:pointer}
 <body>
 
 <header class="nav">
-  <a class="logo" href="#home" onclick="navigate('home')">LITT<span>X</span></a>
+  <a href="#home" class="logo" onclick="navigate('home')">LITT<span>X</span></a>
 
   <nav class="nav-links" id="navLinks">
     <a href="#home" data-nav="home" onclick="navigate('home')">Home</a>
@@ -280,8 +239,8 @@ button{cursor:pointer}
   </nav>
 
   <div class="nav-actions">
-    <a class="btn btn-dark btn-small" href="#login" id="accountButton" onclick="navigate('login')">Account</a>
-    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+    <a href="#login" class="btn btn-dark btn-small" id="accountButton" onclick="navigate('login')">Account</a>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
   </div>
 </header>
 
@@ -290,20 +249,17 @@ button{cursor:pointer}
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <div class="eyebrow">Minecraft 1.8.9 · Built for performance</div>
+        <div class="eyebrow">Minecraft 1.8.9 · Client experience</div>
         <h1>PLAY<br><span>WITHOUT</span><br>LIMITS.</h1>
-        <p>
-          Meet LITTX — a modern Minecraft client experience designed
-          around performance, customization and a clean interface.
-        </p>
+        <p>A modern Minecraft client experience built around performance, customization and a clean interface. Discover LITTX.</p>
         <div class="hero-actions">
-          <a class="btn btn-green" href="#plans" onclick="navigate('plans')">Explore plans ↗</a>
-          <a class="btn btn-dark" href="#features" onclick="navigate('features')">Discover LITTX</a>
+          <a href="#plans" onclick="navigate('plans')" class="btn btn-green">Explore plans ↗</a>
+          <a href="#features" onclick="navigate('features')" class="btn btn-dark">Discover LITTX</a>
         </div>
         <div class="hero-meta">
-          <div class="meta-item"><strong>1.8.9</strong><span>Supported version</span></div>
-          <div class="meta-item"><strong>4</strong><span>Membership tiers</span></div>
-          <div class="meta-item"><strong>YOUR GAME</strong><span>Your experience</span></div>
+          <div class="meta"><strong>1.8.9</strong><span>Minecraft version</span></div>
+          <div class="meta"><strong>04</strong><span>Membership tiers</span></div>
+          <div class="meta"><strong>LITTX</strong><span>Your experience</span></div>
         </div>
       </div>
     </div>
@@ -311,33 +267,30 @@ button{cursor:pointer}
 
   <div class="stats">
     <div class="container stats-grid">
-      <div class="stat"><strong>PERFORMANCE</strong><span>Designed for smooth gameplay</span></div>
-      <div class="stat"><strong>CUSTOMIZATION</strong><span>Make your client yours</span></div>
-      <div class="stat"><strong>COMMUNITY</strong><span>Built around players</span></div>
+      <div class="stat"><strong>PERFORMANCE</strong><span>Performance focused</span></div>
+      <div class="stat"><strong>CUSTOMIZATION</strong><span>Personalize your setup</span></div>
+      <div class="stat"><strong>COMMUNITY</strong><span>Made for players</span></div>
     </div>
   </div>
 
-  <section class="section" id="feature-preview">
+  <section class="section">
     <div class="container">
-      <div class="eyebrow">Why LITTX</div>
-      <h2 class="section-title">MORE THAN A CLIENT.</h2>
-      <p class="section-sub">A focused experience with customization, usability and a polished interface.</p>
-      <div class="features-grid">
-        <article class="feature"><div class="feature-icon">⚡</div><h3>Performance focused</h3><p>A clean client experience designed with performance in mind.</p></article>
-        <article class="feature"><div class="feature-icon">◈</div><h3>Customization</h3><p>Personalize your interface and make your setup feel unique.</p></article>
-        <article class="feature"><div class="feature-icon">▦</div><h3>Modern interface</h3><p>A consistent, easy-to-use interface with a cinematic visual style.</p></article>
-        <article class="feature"><div class="feature-icon">⌘</div><h3>Useful tools</h3><p>Keep your client experience organized with useful features.</p></article>
-        <article class="feature"><div class="feature-icon">♧</div><h3>Membership tiers</h3><p>Choose the membership that fits your preferences.</p></article>
-        <article class="feature"><div class="feature-icon">◎</div><h3>Regular updates</h3><p>Keep an eye on future releases and improvements.</p></article>
+      <div class="eyebrow">The LITTX experience</div>
+      <h2 class="title">MORE THAN A CLIENT.</h2>
+      <p class="subtitle">A polished experience with a focus on usability, customization and performance.</p>
+      <div class="grid">
+        <article class="card"><div class="card-icon">⚡</div><h3>Performance</h3><p>A streamlined client experience designed with performance in mind.</p></article>
+        <article class="card"><div class="card-icon">◈</div><h3>Customization</h3><p>Personalize your setup and make your experience unique.</p></article>
+        <article class="card"><div class="card-icon">▦</div><h3>Modern interface</h3><p>A clean, modern interface with a cinematic visual style.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="padding-top:0">
     <div class="container">
       <div class="cta">
-        <div><h2>READY TO JOIN LITTX?</h2><p>Explore memberships and find the right option for you.</p></div>
-        <a href="#plans" onclick="navigate('plans')" class="btn btn-green">View memberships ↗</a>
+        <div><h2>READY TO JOIN LITTX?</h2><p>Explore the membership options and find your plan.</p></div>
+        <a href="#plans" onclick="navigate('plans')" class="btn btn-green">View plans ↗</a>
       </div>
     </div>
   </section>
@@ -348,15 +301,15 @@ button{cursor:pointer}
   <section class="section">
     <div class="container">
       <div class="eyebrow">The experience</div>
-      <h1 class="section-title">BUILT AROUND YOU.</h1>
-      <p class="section-sub">Explore the design goals behind LITTX. Actual client features depend on the released client build.</p>
-      <div class="features-grid">
-        <article class="feature"><div class="feature-icon">⚡</div><h3>Performance</h3><p>Performance-conscious design and a streamlined experience.</p></article>
-        <article class="feature"><div class="feature-icon">◈</div><h3>Visual customization</h3><p>A modern interface with room for personal customization.</p></article>
-        <article class="feature"><div class="feature-icon">▤</div><h3>Organization</h3><p>Keep settings and tools organized in one place.</p></article>
-        <article class="feature"><div class="feature-icon">⌘</div><h3>Convenience</h3><p>Quick access to the options you use most.</p></article>
-        <article class="feature"><div class="feature-icon">◎</div><h3>Updates</h3><p>Check the downloads area for published releases.</p></article>
-        <article class="feature"><div class="feature-icon">♧</div><h3>Memberships</h3><p>Multiple membership options with clear pricing.</p></article>
+      <h1 class="title">BUILT AROUND YOU.</h1>
+      <p class="subtitle">Explore the design goals behind LITTX. Actual features depend on the client release.</p>
+      <div class="grid">
+        <article class="card"><div class="card-icon">⚡</div><h3>Performance</h3><p>Performance-conscious design and a streamlined experience.</p></article>
+        <article class="card"><div class="card-icon">◈</div><h3>Visual customization</h3><p>Customize the appearance of your client interface.</p></article>
+        <article class="card"><div class="card-icon">▤</div><h3>Organization</h3><p>Keep your settings and tools organized.</p></article>
+        <article class="card"><div class="card-icon">⌘</div><h3>Convenience</h3><p>Quick access to frequently used options.</p></article>
+        <article class="card"><div class="card-icon">◎</div><h3>Updates</h3><p>Check the downloads area for available releases.</p></article>
+        <article class="card"><div class="card-icon">♧</div><h3>Memberships</h3><p>Different options for different players.</p></article>
       </div>
     </div>
   </section>
@@ -369,8 +322,8 @@ button{cursor:pointer}
       <div class="plans-head">
         <div>
           <div class="eyebrow">Memberships</div>
-          <h1 class="section-title">CHOOSE YOUR PLAN.</h1>
-          <p class="section-sub">Select a membership and billing period. Prices are displayed in USD.</p>
+          <h1 class="title">CHOOSE YOUR PLAN.</h1>
+          <p class="subtitle">Select your preferred billing period. All prices are in USD.</p>
         </div>
         <div class="billing">
           <button id="monthlyButton" class="selected" onclick="setBilling('monthly')">30 DAYS</button>
@@ -378,62 +331,61 @@ button{cursor:pointer}
         </div>
       </div>
 
-      <div class="plans-grid">
+      <div class="plans">
         <article class="plan">
-          <div class="plan-name">LITTX FREE</div>
-          <p class="plan-description">The essential LITTX experience.</p>
+          <h3>LITTX FREE</h3>
+          <p class="plan-desc">The essential LITTX experience.</p>
           <div class="price"><strong>$0</strong><span>/ forever</span></div>
-          <div class="plan-note">Free forever</div>
+          <p class="plan-note">Free forever</p>
           <ul><li>Free membership</li><li>Basic client access</li><li>Standard updates</li><li>Community access</li></ul>
-          <button class="btn btn-dark" onclick="choosePlan('LITTX FREE')">Get started</button>
+          <button class="btn btn-dark" onclick="selectPlan('LITTX FREE')">Get started</button>
         </article>
 
         <article class="plan featured">
-          <div class="plan-tag">POPULAR</div>
-          <div class="plan-name">LITTX+</div>
-          <p class="plan-description">For players who want more.</p>
-          <div class="price"><strong data-price="plus">$5</strong><span data-period>/ 30 days</span></div>
-          <div class="plan-note" data-note="plus">$5 every 30 days</div>
-          <ul><li>Everything in Free</li><li>Plus membership status</li><li>Access to Plus content</li><li>Membership updates</li></ul>
-          <button class="btn btn-green" onclick="choosePlan('LITTX+')">Choose LITTX+</button>
+          <span class="tag">POPULAR</span>
+          <h3>LITTX+</h3>
+          <p class="plan-desc">For players who want more.</p>
+          <div class="price"><strong id="pricePlus">$5</strong><span id="periodPlus">/ 30 days</span></div>
+          <p class="plan-note" id="notePlus">$5 every 30 days</p>
+          <ul><li>Everything in Free</li><li>Plus membership status</li><li>Plus content access</li><li>Membership updates</li></ul>
+          <button class="btn btn-green" onclick="selectPlan('LITTX+')">Choose LITTX+</button>
         </article>
 
         <article class="plan">
-          <div class="plan-name">LITTX ULTIMATE</div>
-          <p class="plan-description">The advanced membership tier.</p>
-          <div class="price"><strong data-price="ultimate">$15</strong><span data-period>/ 30 days</span></div>
-          <div class="plan-note" data-note="ultimate">$15 every 30 days</div>
-          <ul><li>Everything in Plus</li><li>Ultimate membership status</li><li>Access to Ultimate content</li><li>Premium updates</li></ul>
-          <button class="btn btn-dark" onclick="choosePlan('LITTX ULTIMATE')">Choose Ultimate</button>
+          <h3>LITTX ULTIMATE</h3>
+          <p class="plan-desc">The advanced membership tier.</p>
+          <div class="price"><strong id="priceUltimate">$15</strong><span id="periodUltimate">/ 30 days</span></div>
+          <p class="plan-note" id="noteUltimate">$15 every 30 days</p>
+          <ul><li>Everything in Plus</li><li>Ultimate membership status</li><li>Ultimate content access</li><li>Premium updates</li></ul>
+          <button class="btn btn-dark" onclick="selectPlan('LITTX ULTIMATE')">Choose Ultimate</button>
         </article>
 
         <article class="plan">
-          <div class="plan-name">LITTX SUPPORTER</div>
-          <p class="plan-description">Support the future of LITTX.</p>
-          <div class="price"><strong data-price="supporter">$75</strong><span data-period>/ 30 days</span></div>
-          <div class="plan-note" data-note="supporter">$75 every 30 days</div>
-          <ul><li>Everything in Ultimate</li><li>Supporter membership status</li><li>Access to Supporter content</li><li>Support development</li></ul>
-          <button class="btn btn-dark" onclick="choosePlan('LITTX SUPPORTER')">Become a Supporter</button>
+          <h3>LITTX SUPPORTER</h3>
+          <p class="plan-desc">Support the future of LITTX.</p>
+          <div class="price"><strong id="priceSupporter">$75</strong><span id="periodSupporter">/ 30 days</span></div>
+          <p class="plan-note" id="noteSupporter">$75 every 30 days</p>
+          <ul><li>Everything in Ultimate</li><li>Supporter membership status</li><li>Supporter content access</li><li>Support development</li></ul>
+          <button class="btn btn-dark" onclick="selectPlan('LITTX SUPPORTER')">Become a Supporter</button>
         </article>
       </div>
 
-      <div class="section" style="padding-bottom:0">
+      <div style="margin-top:75px">
         <div class="eyebrow">Compare memberships</div>
-        <h2 class="section-title">WHAT'S INCLUDED?</h2>
+        <h2 class="title">WHAT'S INCLUDED?</h2>
         <div class="table-wrap">
-          <table class="compare">
+          <table>
             <thead><tr><th>Feature</th><th>Free</th><th>Plus</th><th>Ultimate</th><th>Supporter</th></tr></thead>
             <tbody>
               <tr><td>Basic client access</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
               <tr><td>Standard updates</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Plus membership content</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Ultimate membership content</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Supporter membership status</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Plus content</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Ultimate content</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Supporter status</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
               <tr><td>Support development</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="section-sub">Membership benefits shown here are website descriptions. Connect them to real client permissions and downloads through a backend before selling memberships.</p>
       </div>
     </div>
   </section>
@@ -444,17 +396,20 @@ button{cursor:pointer}
   <section class="section">
     <div class="container">
       <div class="eyebrow">Release center</div>
-      <h1 class="section-title">DOWNLOAD LITTX.</h1>
-      <p class="section-sub">Your central place for client releases and updates.</p>
+      <h1 class="title">DOWNLOAD LITTX.</h1>
+      <p class="subtitle">Get the official LITTX client release.</p>
+
       <div class="download-card">
-        <div><h3>LITTX Client — Minecraft 1.8.9</h3><p>Official client release · Add your real download link before publishing.</p></div>
-        <button class="btn btn-green" onclick="showMessage('The client download link has not been configured yet. Add your release URL in the website code.')">Download ↗</button>
+        <div><h3>LITTX Client — Minecraft 1.8.9</h3><p>Official client release · Current version</p></div>
+        <a class="btn btn-green" href="downloads/littx-client.jar" download>Download ↗</a>
       </div>
+
       <div class="download-card">
-        <div><h3>Release information</h3><p>Check back for official release notes and updates.</p></div>
-        <span class="eyebrow">Coming soon</span>
+        <div><h3>Release information</h3><p>Release notes and future updates.</p></div>
+        <span class="eyebrow">Release center</span>
       </div>
-      <div class="notice">The download button is a placeholder. It will not download a file until you add your actual client release URL.</div>
+
+      <div class="notice">Place your actual client file at <b>downloads/littx-client.jar</b> in your GitHub repository. The download link will work after that file is uploaded.</div>
     </div>
   </section>
 </main>
@@ -463,16 +418,16 @@ button{cursor:pointer}
 <main id="login" class="page">
   <section class="auth-area">
     <div class="container" style="display:flex;justify-content:center">
-      <form class="auth-card" onsubmit="demoLogin(event)">
+      <form class="auth-card" onsubmit="login(event)">
         <div class="eyebrow">LITTX ACCOUNT</div>
         <h1>WELCOME BACK.</h1>
-        <p>Sign in to view the account demonstration.</p>
+        <p>Sign in to your local demonstration account.</p>
         <div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="you@example.com" required></div>
-        <div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="Your password" required></div>
-        <div id="loginMessage"></div>
+        <div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="Password" required></div>
+        <div id="loginMessage" class="message"></div>
         <button class="btn btn-green" type="submit">Sign in</button>
         <div class="auth-switch">Don't have an account? <button type="button" onclick="navigate('register')">Create one</button></div>
-        <div class="notice">Demo only: no password is saved or sent anywhere. This is not real authentication.</div>
+        <div class="notice">Demo account only. Do not reuse a real password. This is not secure authentication.</div>
       </form>
     </div>
   </section>
@@ -482,17 +437,17 @@ button{cursor:pointer}
 <main id="register" class="page">
   <section class="auth-area">
     <div class="container" style="display:flex;justify-content:center">
-      <form class="auth-card" onsubmit="demoRegister(event)">
+      <form class="auth-card" onsubmit="register(event)">
         <div class="eyebrow">JOIN LITTX</div>
         <h1>CREATE ACCOUNT.</h1>
-        <p>Create a temporary demonstration session.</p>
+        <p>Create a local demonstration account.</p>
         <div class="field"><label>Username</label><input id="registerName" type="text" placeholder="Your username" minlength="3" maxlength="24" required></div>
         <div class="field"><label>Email</label><input id="registerEmail" type="email" placeholder="you@example.com" required></div>
         <div class="field"><label>Password</label><input id="registerPassword" type="password" placeholder="Create a password" minlength="6" required></div>
-        <div id="registerMessage"></div>
+        <div id="registerMessage" class="message"></div>
         <button class="btn btn-green" type="submit">Create account</button>
         <div class="auth-switch">Already have an account? <button type="button" onclick="navigate('login')">Sign in</button></div>
-        <div class="notice">Demo only: account details are not stored. Do not enter a password you use elsewhere.</div>
+        <div class="notice">Demo only. Account data is stored in this browser. Do not use a password you use elsewhere.</div>
       </form>
     </div>
   </section>
@@ -502,19 +457,68 @@ button{cursor:pointer}
 <main id="dashboard" class="page">
   <section class="section">
     <div class="container">
-      <div class="eyebrow">Your account</div>
-      <h1 class="section-title">DASHBOARD.</h1>
-      <p class="section-sub">Welcome to your LITTX account demonstration.</p>
-      <div class="dashboard-grid">
-        <div class="dash-card"><h3>Account</h3><div class="dash-value" id="dashUsername">Player</div><p id="dashEmail">Demo session</p></div>
-        <div class="dash-card"><h3>Membership</h3><div class="dash-value" id="dashPlan">FREE</div><p id="dashBilling">Free membership</p></div>
+      <div class="eyebrow">Personal account</div>
+      <h1 class="title">DASHBOARD.</h1>
+      <p class="subtitle">Manage your demonstration account and membership.</p>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <h3>USERNAME</h3>
+          <div class="dash-value" id="dashName">Player</div>
+          <p id="dashEmail">email@example.com</p>
+        </div>
+        <div class="dash-card">
+          <h3>MEMBERSHIP</h3>
+          <div class="dash-value" id="dashPlan">LITTX FREE</div>
+          <p id="dashExpiry">Free forever</p>
+        </div>
+        <div class="dash-card">
+          <h3>ACCOUNT STATUS</h3>
+          <div class="dash-value">ACTIVE</div>
+          <p>Local demonstration account</p>
+        </div>
+        <div class="dash-card">
+          <h3>CLIENT VERSION</h3>
+          <div class="dash-value">1.8.9</div>
+          <p>Check Downloads for the client file.</p>
+        </div>
       </div>
-      <div class="dashboard-grid">
-        <div class="dash-card"><h3>Downloads</h3><p>Visit the downloads section to see available releases.</p><br><a class="btn btn-dark" href="#downloads" onclick="navigate('downloads')">Open downloads</a></div>
-        <div class="dash-card"><h3>Memberships</h3><p>Explore the available LITTX membership options.</p><br><a class="btn btn-dark" href="#plans" onclick="navigate('plans')">View plans</a></div>
+
+      <div class="dash-actions">
+        <button class="btn btn-green" onclick="navigate('downloads')">Download client</button>
+        <button class="btn btn-dark" onclick="navigate('plans')">Explore memberships</button>
+        <button class="btn btn-dark" onclick="logout()">Sign out</button>
       </div>
-      <br><button class="btn btn-dark" onclick="logout()">Sign out</button>
-      <div class="notice">This dashboard uses temporary browser memory. Refreshing the page signs you out. Real accounts require a secure backend.</div>
+
+      <div class="notice">This dashboard is a local demo. Membership selections are not verified purchases and do not grant protected access to client files.</div>
+    </div>
+  </section>
+</main>
+
+<!-- FAQ -->
+<main id="faq" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">Help center</div>
+      <h1 class="title">FREQUENTLY ASKED.</h1>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What is LITTX? <span>+</span></button>
+          <div class="faq-answer">LITTX is a Minecraft client project. Check the official release information for supported versions and features.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Which Minecraft version is supported? <span>+</span></button>
+          <div class="faq-answer">This website currently advertises Minecraft 1.8.9. Check the client release for exact compatibility.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Are payments enabled? <span>+</span></button>
+          <div class="faq-answer">No. Membership selection is currently a demonstration. No payment is taken.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Are accounts secure? <span>+</span></button>
+          <div class="faq-answer">No. This version uses browser-local demonstration accounts. Never enter a real password.</div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -522,11 +526,12 @@ button{cursor:pointer}
 <!-- TERMS -->
 <main id="terms" class="page">
   <section class="section"><div class="container">
-    <div class="eyebrow">Information</div><h1 class="section-title">TERMS OF USE.</h1>
-    <p class="section-sub">This is a starter terms page. Replace it with terms reviewed for your actual service before accepting payments.</p>
-    <div class="feature" style="margin-top:30px">
-      <h3>Website use</h3><p>Use the website lawfully and do not attempt to disrupt its operation.</p><br>
-      <h3>Memberships</h3><p>Membership descriptions and prices must accurately reflect the service provided. Purchases should only be enabled after secure payment processing is configured.</p><br>
+    <div class="eyebrow">Information</div>
+    <h1 class="title">TERMS OF USE.</h1>
+    <p class="subtitle">Starter terms page. Replace this with terms appropriate for your actual service before launch.</p>
+    <div class="card" style="margin-top:30px">
+      <h3>Website use</h3><p>Use this website lawfully and do not attempt to disrupt its operation.</p><br>
+      <h3>Memberships</h3><p>Membership options displayed on this demo are not purchasable. No payment or paid access is provided.</p><br>
       <h3>Updates</h3><p>Features and availability may change as the project develops.</p><br>
       <h3>Contact</h3><p>Add your official support contact details here.</p>
     </div>
@@ -536,11 +541,13 @@ button{cursor:pointer}
 <!-- PRIVACY -->
 <main id="privacy" class="page">
   <section class="section"><div class="container">
-    <div class="eyebrow">Information</div><h1 class="section-title">PRIVACY POLICY.</h1>
-    <p class="section-sub">This is a placeholder privacy page, not a complete legal policy.</p>
-    <div class="feature" style="margin-top:30px">
-      <h3>Demo website</h3><p>This frontend demonstration does not send login details to a server or save passwords.</p><br>
-      <h3>Future account system</h3><p>Before adding real accounts, explain what information is collected, why it is collected, how it is protected, and how users can request its deletion.</p><br>
+    <div class="eyebrow">Information</div>
+    <h1 class="title">PRIVACY POLICY.</h1>
+    <p class="subtitle">Starter privacy information for this demonstration website.</p>
+    <div class="card" style="margin-top:30px">
+      <h3>Local account data</h3><p>Demo account information is stored in the browser's local storage on the device. It is not sent to a server by this website.</p><br>
+      <h3>Passwords</h3><p>Do not use a real or reused password. This demonstration does not provide secure password handling.</p><br>
+      <h3>Future services</h3><p>If real accounts, analytics or payments are added, update this policy to explain the data collected and how it is used.</p><br>
       <h3>Contact</h3><p>Add your official privacy contact details here.</p>
     </div>
   </div></section>
@@ -551,6 +558,7 @@ button{cursor:pointer}
     <a href="#home" onclick="navigate('home')" class="logo">LITT<span>X</span></a>
     <p>© <span id="year"></span> LITTX. All rights reserved.</p>
     <div class="footer-links">
+      <a href="#faq" onclick="navigate('faq')">FAQ</a>
       <a href="#terms" onclick="navigate('terms')">Terms</a>
       <a href="#privacy" onclick="navigate('privacy')">Privacy</a>
       <a href="#login" onclick="navigate('login')">Account</a>
@@ -558,46 +566,68 @@ button{cursor:pointer}
   </div>
 </footer>
 
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="planModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="eyebrow">Membership selection</div>
+    <h2 id="modalTitle">LITTX+</h2>
+    <p id="modalDescription">This is a demonstration selection.</p>
+    <div class="notice">Payments are currently disabled. This selection only changes your local demo dashboard.</div>
+    <div class="modal-actions">
+      <button class="btn btn-green" onclick="confirmPlan()">Confirm demo selection</button>
+      <button class="btn btn-dark" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const MEMBERSHIPS = {
-  "LITTX+": { monthly: 5, forever: 15 },
-  "LITTX ULTIMATE": { monthly: 15, forever: 50 },
-  "LITTX SUPPORTER": { monthly: 75, forever: 250 }
+const PLAN_PRICES = {
+  "LITTX+": { monthly:5, forever:15 },
+  "LITTX ULTIMATE": { monthly:15, forever:50 },
+  "LITTX SUPPORTER": { monthly:75, forever:250 }
 };
 
 let billing = "monthly";
+let pendingPlan = null;
 let currentUser = null;
-let currentPlan = "LITTX FREE";
+let toastTimer = null;
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const $ = id => document.getElementById(id);
+
+function toast(message) {
+  const element = $("toast");
+  element.textContent = message;
+  element.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => element.classList.remove("show"), 3500);
+}
 
 function navigate(page) {
-  const target = document.getElementById(page);
+  const target = $(page);
   if (!target) page = "home";
 
-  if (page === "dashboard" && !currentUser) {
-    page = "login";
-  }
+  if (page === "dashboard" && !currentUser) page = "login";
 
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById(page).classList.add("active");
+  document.querySelectorAll(".page").forEach(item => item.classList.remove("active"));
+  $(page).classList.add("active");
 
   document.querySelectorAll("[data-nav]").forEach(link => {
     link.classList.toggle("active", link.dataset.nav === page);
   });
 
-  document.getElementById("navLinks").classList.remove("show");
+  $("navLinks").classList.remove("show");
   history.replaceState(null, "", "#" + page);
-  window.scrollTo({top: 0, behavior: "smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
   updateAccountButton();
 }
 
 function toggleMenu() {
-  document.getElementById("navLinks").classList.toggle("show");
+  $("navLinks").classList.toggle("show");
 }
 
 function updateAccountButton() {
-  const button = document.getElementById("accountButton");
+  const button = $("accountButton");
   if (currentUser) {
     button.textContent = "Dashboard";
     button.href = "#dashboard";
@@ -611,103 +641,188 @@ function updateAccountButton() {
 
 function setBilling(type) {
   billing = type;
-  document.getElementById("monthlyButton").classList.toggle("selected", type === "monthly");
-  document.getElementById("foreverButton").classList.toggle("selected", type === "forever");
+  $("monthlyButton").classList.toggle("selected", type === "monthly");
+  $("foreverButton").classList.toggle("selected", type === "forever");
 
-  Object.keys(MEMBERSHIPS).forEach(name => {
-    const key = name === "LITTX+" ? "plus" : name === "LITTX ULTIMATE" ? "ultimate" : "supporter";
-    const price = MEMBERSHIPS[name][type];
-    document.querySelector(`[data-price="${key}"]`).textContent = "$" + price;
-    document.querySelectorAll(".plan [data-period]")[Object.keys(MEMBERSHIPS).indexOf(name)].textContent =
-      type === "monthly" ? "/ 30 days" : "/ lifetime";
-    document.querySelector(`[data-note="${key}"]`).textContent =
-      type === "monthly" ? "$" + price + " every 30 days" : "$" + price + " one-time payment";
+  const mapping = [
+    ["LITTX+", "pricePlus", "periodPlus", "notePlus"],
+    ["LITTX ULTIMATE", "priceUltimate", "periodUltimate", "noteUltimate"],
+    ["LITTX SUPPORTER", "priceSupporter", "periodSupporter", "noteSupporter"]
+  ];
+
+  mapping.forEach(([name, priceId, periodId, noteId]) => {
+    const price = PLAN_PRICES[name][type];
+    $(priceId).textContent = "$" + price;
+    $(periodId).textContent = type === "monthly" ? "/ 30 days" : "/ lifetime";
+    $(noteId).textContent = type === "monthly"
+      ? "$" + price + " every 30 days"
+      : "$" + price + " one-time";
   });
 }
 
-function choosePlan(plan) {
-  if (plan === "LITTX FREE") {
-    currentPlan = plan;
-    if (currentUser) {
-      updateDashboard();
-      showMessage("Your demo membership is set to Free.");
-      navigate("dashboard");
-    } else {
-      navigate("register");
-    }
+function selectPlan(plan) {
+  if (!currentUser) {
+    toast("Create or sign in to a demo account first.");
+    navigate("register");
     return;
   }
 
-  const price = MEMBERSHIPS[plan][billing];
-  showMessage(
-    plan + " — $" + price + (billing === "monthly" ? " / 30 days" : " / lifetime") +
-    ". Checkout is not connected yet. No payment has been taken."
-  );
+  pendingPlan = plan;
+  const price = plan === "LITTX FREE" ? 0 : PLAN_PRICES[plan][billing];
+
+  $("modalTitle").textContent = plan;
+  $("modalDescription").textContent = plan === "LITTX FREE"
+    ? "Free membership — no payment required."
+    : "$" + price + (billing === "monthly" ? " / 30 days" : " / lifetime") + ". No payment will be taken.";
+
+  $("planModal").classList.add("show");
 }
 
-function showMessage(message) {
-  alert(message);
+function closeModal() {
+  $("planModal").classList.remove("show");
 }
 
-function demoLogin(event) {
-  event.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
+function closeModalOutside(event) {
+  if (event.target === $("planModal")) closeModal();
+}
 
-  currentUser = {
-    name: email.split("@")[0],
-    email: email
-  };
+function confirmPlan() {
+  if (!currentUser || !pendingPlan) return;
 
-  currentPlan = "LITTX FREE";
+  currentUser.plan = pendingPlan;
+  currentUser.billing = pendingPlan === "LITTX FREE" ? "forever" : billing;
+  currentUser.expiry = pendingPlan === "LITTX FREE" || billing === "forever"
+    ? "No expiry"
+    : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString();
+
+  saveCurrentUser();
   updateDashboard();
-  updateAccountButton();
+  closeModal();
+  toast("Demo membership updated. No payment was made.");
   navigate("dashboard");
 }
 
-function demoRegister(event) {
+function saveCurrentUser() {
+  if (!currentUser) return;
+  localStorage.setItem("littx_demo_user", JSON.stringify(currentUser));
+}
+
+function loadUsers() {
+  try {
+    return JSON.parse(localStorage.getItem("littx_demo_accounts") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveUsers(users) {
+  localStorage.setItem("littx_demo_accounts", JSON.stringify(users));
+}
+
+function register(event) {
   event.preventDefault();
 
-  currentUser = {
-    name: document.getElementById("registerName").value.trim(),
-    email: document.getElementById("registerEmail").value.trim()
+  const name = $("registerName").value.trim();
+  const email = $("registerEmail").value.trim().toLowerCase();
+  const password = $("registerPassword").value;
+
+  const users = loadUsers();
+  const message = $("registerMessage");
+
+  if (users.some(user => user.email === email)) {
+    message.textContent = "An account with this email already exists.";
+    return;
+  }
+
+  const user = {
+    name,
+    email,
+    password,
+    plan:"LITTX FREE",
+    billing:"forever",
+    expiry:"No expiry"
   };
 
-  currentPlan = "LITTX FREE";
+  users.push(user);
+  saveUsers(users);
+
+  currentUser = {...user};
+  saveCurrentUser();
   updateDashboard();
   updateAccountButton();
+  event.target.reset();
+  toast("Demo account created.");
+  navigate("dashboard");
+}
+
+function login(event) {
+  event.preventDefault();
+
+  const email = $("loginEmail").value.trim().toLowerCase();
+  const password = $("loginPassword").value;
+  const message = $("loginMessage");
+
+  const user = loadUsers().find(
+    item => item.email === email && item.password === password
+  );
+
+  if (!user) {
+    message.textContent = "Incorrect email or password.";
+    return;
+  }
+
+  currentUser = {...user};
+  saveCurrentUser();
+  updateDashboard();
+  updateAccountButton();
+  event.target.reset();
+  toast("Welcome back, " + currentUser.name + ".");
   navigate("dashboard");
 }
 
 function updateDashboard() {
   if (!currentUser) return;
-  document.getElementById("dashUsername").textContent = currentUser.name;
-  document.getElementById("dashEmail").textContent = currentUser.email;
-  document.getElementById("dashPlan").textContent = currentPlan;
-  document.getElementById("dashBilling").textContent =
-    currentPlan === "LITTX FREE" ? "Free membership" : billing;
+
+  $("dashName").textContent = currentUser.name;
+  $("dashEmail").textContent = currentUser.email;
+  $("dashPlan").textContent = currentUser.plan || "LITTX FREE";
+  $("dashExpiry").textContent = currentUser.expiry || "No expiry";
 }
 
 function logout() {
   currentUser = null;
-  currentPlan = "LITTX FREE";
+  localStorage.removeItem("littx_demo_user");
   updateAccountButton();
+  toast("You have signed out.");
   navigate("home");
 }
 
-document.querySelectorAll(".faq-question").forEach(button => {
-  button.addEventListener("click", () => {
-    button.parentElement.classList.toggle("open");
-  });
-});
+function toggleFaq(button) {
+  button.parentElement.classList.toggle("open");
+  const symbol = button.querySelector("span");
+  symbol.textContent = button.parentElement.classList.contains("open") ? "−" : "+";
+}
 
-window.addEventListener("load", () => {
-  const requested = location.hash.replace("#", "");
-  if (requested && document.getElementById(requested)) {
-    navigate(requested);
-  } else {
-    navigate("home");
+function initialize() {
+  $("year").textContent = new Date().getFullYear();
+
+  try {
+    currentUser = JSON.parse(localStorage.getItem("littx_demo_user") || "null");
+  } catch {
+    currentUser = null;
   }
-});
+
+  if (currentUser) {
+    updateDashboard();
+  }
+
+  updateAccountButton();
+
+  const page = location.hash.replace("#", "");
+  navigate($(page) ? page : "home");
+}
+
+window.addEventListener("DOMContentLoaded", initialize);
 </script>
 
 </body>
